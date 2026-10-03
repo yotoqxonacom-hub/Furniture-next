@@ -35,6 +35,11 @@ export interface PublicMessage {
 	event: string;
 	text: string;
 	memberData: any;
+	/** set by the server (older servers may not send them) */
+	id?: string;
+	createdAt?: string;
+	/** someone other than the author has seen it */
+	read?: boolean;
 }
 export interface SocketEvent {
 	seq: number;

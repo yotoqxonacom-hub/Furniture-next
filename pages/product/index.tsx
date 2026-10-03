@@ -15,7 +15,6 @@ import AddProductButton from '../../libs/components/common/AddProductButton';
 import { ProductsInquiry } from '../../libs/types/product/product.input';
 import { Product } from '../../libs/types/product/product';
 import { GET_PRODUCTS } from '../../apollo/user/query';
-import { T } from '../../libs/types/common';
 import useLikeProduct from '../../libs/hooks/useLikeProduct';
 import { productTypeLabel } from '../../libs/enums/product.enum';
 import { capitalize } from '../../libs/utils';
@@ -57,21 +56,21 @@ const ProductList: NextPage = () => {
 	const router = useRouter();
 	const { t } = useTranslation('common');
 	const [searchFilter, setSearchFilter] = useState<ProductsInquiry>(parseInput(router.query.input) ?? initialInput);
-	const [products, setProducts] = useState<Product[]>([]);
-	const [total, setTotal] = useState<number>(0);
 	const [filterOpen, setFilterOpen] = useState<boolean>(false);
 
 	/** APOLLO REQUESTS **/
-	const { loading, refetch: getProductsRefetch } = useQuery(GET_PRODUCTS, {
-		fetchPolicy: 'network-only',
+	// cache-and-network + reading `data` directly: coming back from a product shows the same
+	// list immediately (scroll position can be restored), then refreshes it in the background
+	const { data, previousData, loading, refetch: getProductsRefetch } = useQuery(GET_PRODUCTS, {
+		fetchPolicy: 'cache-and-network',
 		// the URL keeps what the user picked; toProductsQuery adapts it for the backend ("5+" etc.)
 		variables: { input: toProductsQuery(searchFilter) },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setProducts(data?.getProducts?.list ?? []);
-			setTotal(data?.getProducts?.metaCounter?.[0]?.total ?? 0);
-		},
 	});
+	// while a new filter loads, keep showing the previous results instead of an empty grid
+	const shown = data ?? previousData;
+	const products: Product[] = shown?.getProducts?.list ?? [];
+	const total: number = shown?.getProducts?.metaCounter?.[0]?.total ?? 0;
 
 	const likeProductHandler = useLikeProduct(() => getProductsRefetch({ input: toProductsQuery(searchFilter) }));
 

@@ -41,6 +41,12 @@ const handleMessage = (msg: MessageEvent) => {
 		case 'message':
 			publicMessagesVar([...publicMessagesVar(), data].slice(-PUBLIC_HISTORY));
 			break;
+		case 'publicRead': {
+			// read receipts for community messages: one tick -> two ticks
+			const ids = new Set<string>(data.ids ?? []);
+			publicMessagesVar(publicMessagesVar().map((m) => (m.id && ids.has(m.id) ? { ...m, read: true } : m)));
+			break;
+		}
 		case 'dm':
 		case 'read':
 			socketEventVar({ seq: ++seq, payload: data });
@@ -112,4 +118,15 @@ export const sendPublicMessage = (text: string): boolean => {
 	}
 	socket.send(JSON.stringify({ event: 'message', data: text }));
 	return true;
+};
+
+/** ids already reported by this tab, so the same message is not sent twice */
+const reportedRead = new Set<string>();
+
+/** community chat: tell the server these messages were seen by this user */
+export const markPublicRead = (ids: string[]): void => {
+	const fresh = ids.filter((id) => !reportedRead.has(id));
+	if (!fresh.length || !socket || socket.readyState !== WebSocket.OPEN) return;
+	fresh.forEach((id) => reportedRead.add(id));
+	socket.send(JSON.stringify({ event: 'readPublic', data: fresh }));
 };

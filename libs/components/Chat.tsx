@@ -7,6 +7,7 @@ import SendRoundedIcon from '@mui/icons-material/SendRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import ChatBubbleOutlineRoundedIcon from '@mui/icons-material/ChatBubbleOutlineRounded';
+import DoneRoundedIcon from '@mui/icons-material/DoneRounded';
 import DoneAllRoundedIcon from '@mui/icons-material/DoneAllRounded';
 import ScrollableFeed from 'react-scrollable-feed';
 import {
@@ -24,11 +25,21 @@ import { GET_CONVERSATIONS, GET_MESSAGES } from '../../apollo/user/query';
 import { MARK_CONVERSATION_READ, SEND_MESSAGE } from '../../apollo/user/mutation';
 import { Conversation, Message } from '../types/message/message';
 import { T } from '../types/common';
-import { sendPublicMessage } from '../socket';
+import { markPublicRead, sendPublicMessage } from '../socket';
 import { sweetErrorAlert } from '../sweetAlert';
 import { memberImageUrl } from '../utils';
 
 const PAGE_SIZE = 30;
+
+/** one tick: delivered, not read yet · two ticks: the other side has read it */
+const ReadTicks = ({ read }: { read: boolean }) => {
+	const { t } = useTranslation('common');
+	return (
+		<span className={`ticks ${read ? 'read' : ''}`} title={read ? t('Read') : t('Sent')} aria-label={read ? t('Read') : t('Sent')}>
+			{read ? <DoneAllRoundedIcon /> : <DoneRoundedIcon />}
+		</span>
+	);
+};
 
 const shortTime = (date?: Date | string) => {
 	if (!date) return '';
@@ -211,8 +222,6 @@ const Thread = ({ myId, onChanged }: ThreadProps) => {
 		else await router.push({ pathname: '/member', query: { memberId: target._id } });
 	};
 
-	const lastMine = [...messages].reverse().find((m) => m.senderId === myId);
-
 	return (
 		<div className={'thread'}>
 			<div className={'thread-head'}>
@@ -249,17 +258,14 @@ const Thread = ({ myId, onChanged }: ThreadProps) => {
 								<div key={msg._id} className={`bubble-row ${mine ? 'mine' : ''}`}>
 									<div className={'bubble'}>
 										<p>{msg.messageText}</p>
-										<small>{shortTime(msg.createdAt)}</small>
+										<span className={'meta'}>
+											<small>{shortTime(msg.createdAt)}</small>
+											{mine && <ReadTicks read={msg.messageStatus === 'READ'} />}
+										</span>
 									</div>
 								</div>
 							);
 						})}
-						{lastMine && lastMine.messageStatus === 'READ' && (
-							<div className={'seen'}>
-								<DoneAllRoundedIcon fontSize="small" />
-								{t('Seen')}
-							</div>
-						)}
 					</div>
 				</ScrollableFeed>
 			</div>
@@ -289,7 +295,21 @@ const PublicChat = ({ myId }: { myId?: string }) => {
 	const { t } = useTranslation('common');
 	const messages = useReactiveVar(publicMessagesVar);
 	const status = useReactiveVar(socketStatusVar);
+	const open = useReactiveVar(chatOpenVar);
 	const [text, setText] = useState<string>('');
+
+	/** LIFECYCLES **/
+	// the community tab is on screen: tell the server we have read other people's messages
+	useEffect(() => {
+		const report = () => {
+			if (!open || document.visibilityState !== 'visible') return;
+			const unread = messages.filter((m) => m.id && !m.read && !(myId && m.memberData?._id === myId)).map((m) => m.id!);
+			if (unread.length) markPublicRead(unread);
+		};
+		report();
+		document.addEventListener('visibilitychange', report);
+		return () => document.removeEventListener('visibilitychange', report);
+	}, [messages, open, myId]);
 
 	const sendHandler = (e: React.FormEvent) => {
 		e.preventDefault();
@@ -311,7 +331,7 @@ const PublicChat = ({ myId }: { myId?: string }) => {
 						{messages.map((msg, index) => {
 							const mine = Boolean(myId) && msg.memberData?._id === myId;
 							return (
-								<div key={index} className={`bubble-row ${mine ? 'mine' : ''}`}>
+								<div key={msg.id ?? index} className={`bubble-row ${mine ? 'mine' : ''}`}>
 									{!mine && (
 										<Avatar
 											alt={msg.memberData?.memberNick ?? 'Guest'}
@@ -322,6 +342,10 @@ const PublicChat = ({ myId }: { myId?: string }) => {
 									<div className={'bubble'}>
 										{!mine && <span className={'author'}>{msg.memberData?.memberNick ?? t('Guest')}</span>}
 										<p>{msg.text}</p>
+										<span className={'meta'}>
+											{msg.createdAt && <small>{shortTime(msg.createdAt)}</small>}
+											{mine && <ReadTicks read={Boolean(msg.read)} />}
+										</span>
 									</div>
 								</div>
 							);
@@ -360,6 +384,7 @@ const Chat = () => {
 	const onlineUsers = useReactiveVar(onlineUsersVar);
 	const socketEvent = useReactiveVar(socketEventVar);
 	const [conversations, setConversations] = useState<Conversation[]>([]);
+	const chatRef = useRef<HTMLDivElement>(null);
 
 	/** APOLLO REQUESTS **/
 	const { loading, refetch: refetchConversations } = useQuery(GET_CONVERSATIONS, {
@@ -391,6 +416,25 @@ const Chat = () => {
 		if (!user?._id) unreadMessagesVar(0);
 	}, [user?._id]);
 
+	// open chat closes on a click / tap anywhere outside it, or with Escape
+	useEffect(() => {
+		if (!open) return;
+		const onPointerDown = (e: PointerEvent) => {
+			const node = e.target as Element | null;
+			if (!node || chatRef.current?.contains(node)) return;
+			// alerts and menus opened from the chat live outside it in the DOM
+			if (node.closest('.swal2-container, .MuiPopover-root, .MuiModal-root')) return;
+			chatOpenVar(false);
+		};
+		const onKeyDown = (e: KeyboardEvent) => e.key === 'Escape' && chatOpenVar(false);
+		document.addEventListener('pointerdown', onPointerDown);
+		document.addEventListener('keydown', onKeyDown);
+		return () => {
+			document.removeEventListener('pointerdown', onPointerDown);
+			document.removeEventListener('keydown', onKeyDown);
+		};
+	}, [open]);
+
 	// forms with a sticky submit bar: keep the corner free unless the chat is open
 	const formPage = router.pathname === '/mypage' && ['addProduct', 'writeArticle'].includes(router.query?.category as string);
 	if (formPage && !open) return null;
@@ -398,7 +442,7 @@ const Chat = () => {
 	const myId = user?._id ?? '';
 
 	return (
-		<div className="chatting">
+		<div className="chatting" ref={chatRef}>
 			<button className="chat-button" onClick={() => chatOpenVar(!open)} aria-label={'Messages'}>
 				{open ? <CloseRoundedIcon /> : <ChatBubbleOutlineRoundedIcon />}
 				{!open && unread > 0 && <span className={'chat-badge'}>{unread > 9 ? '9+' : unread}</span>}

@@ -435,16 +435,28 @@
 			margin-top: 2px;
 		}
 	}
-	.seen {
+	/* time + read ticks under the text: one tick = sent, two ticks = read */
+	.bubble .meta {
 		align-self: flex-end;
 		display: inline-flex;
 		align-items: center;
-		gap: 4px;
-		font-size: 11px;
-		color: $sage-dark;
-		font-weight: 700;
+		gap: 3px;
+		margin-top: 2px;
+		small {
+			margin-top: 0;
+		}
+	}
+	.ticks {
+		display: inline-flex;
+		color: #a69c90;
 		svg {
-			font-size: 14px;
+			font-size: 15px;
+		}
+	}
+	.bubble-row.mine .ticks {
+		color: rgba(255, 255, 255, 0.7);
+		&.read {
+			color: #fff;
 		}
 	}
 

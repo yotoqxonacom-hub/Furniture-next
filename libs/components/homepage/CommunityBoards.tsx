@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -6,7 +6,6 @@ import EastRoundedIcon from '@mui/icons-material/EastRounded';
 import { GET_BOARD_ARTICLES } from '../../../apollo/user/query';
 import { BoardArticle } from '../../types/board-article/board-article';
 import { BoardArticleCategory } from '../../enums/board-article.enum';
-import { T } from '../../types/common';
 import { capitalize, imageUrl, timeAgo } from '../../utils';
 
 const baseInput = { page: 1, sort: 'articleViews', direction: 'DESC' };
@@ -16,23 +15,18 @@ const articleHref = (article: BoardArticle) =>
 
 const CommunityBoards = () => {
 	const { t } = useTranslation('common');
-	const [featured, setFeatured] = useState<BoardArticle[]>([]);
-	const [latest, setLatest] = useState<BoardArticle[]>([]);
 
 	/** APOLLO REQUESTS **/
-	useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
+	const { data: featuredData } = useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'cache-and-network',
 		variables: { input: { ...baseInput, limit: 2, search: { articleCategory: BoardArticleCategory.INTERIOR } } },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setFeatured(data?.getBoardArticles?.list ?? []),
 	});
-
-	useQuery(GET_BOARD_ARTICLES, {
-		fetchPolicy: 'network-only',
+	const { data: latestData } = useQuery(GET_BOARD_ARTICLES, {
+		fetchPolicy: 'cache-and-network',
 		variables: { input: { ...baseInput, limit: 4, search: { articleCategory: BoardArticleCategory.FREE } } },
-		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => setLatest(data?.getBoardArticles?.list ?? []),
 	});
+	const featured: BoardArticle[] = featuredData?.getBoardArticles?.list ?? [];
+	const latest: BoardArticle[] = latestData?.getBoardArticles?.list ?? [];
 
 	if (!featured.length && !latest.length) return null;
 

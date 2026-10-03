@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { NextPage } from 'next';
 import { useRouter } from 'next/router';
 import { useTranslation } from 'next-i18next';
+import { useApolloClient } from '@apollo/client';
 import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined';
 import VisibilityOffOutlinedIcon from '@mui/icons-material/VisibilityOffOutlined';
@@ -18,21 +19,42 @@ export const getStaticProps = async ({ locale }: any) => ({
 	},
 });
 
+/** the form always starts empty: nothing from a previous login / sign-up stays on screen */
+const EMPTY_INPUT = { nick: '', password: '', phone: '', type: 'USER' };
+
 const Join: NextPage = () => {
 	const router = useRouter();
 	const { t } = useTranslation('common');
 	const [loginView, setLoginView] = useState<boolean>(true);
 	const [showPassword, setShowPassword] = useState<boolean>(false);
 	const [loading, setLoading] = useState<boolean>(false);
-	const [input, setInput] = useState({ nick: '', password: '', phone: '', type: 'USER' });
+	const apolloClient = useApolloClient();
+	const [input, setInput] = useState(EMPTY_INPUT);
 
 	/** HANDLERS **/
 	const handleInput = (name: string, value: string) => setInput((prev) => ({ ...prev, [name]: value }));
+
+	const resetForm = (keepType: boolean = false) => {
+		setInput((prev) => ({ ...EMPTY_INPUT, type: keepType ? prev.type : EMPTY_INPUT.type }));
+		setShowPassword(false);
+	};
+
+	/** Login <-> Sign up: the other form opens clean */
+	const switchView = (login: boolean) => {
+		if (login === loginView) return;
+		setLoginView(login);
+		resetForm(true);
+	};
 
 	/** LIFECYCLES **/
 	useEffect(() => {
 		// already logged in -> nothing to do here
 		if (getJwtToken()) router.replace('/').then();
+		resetForm();
+		// Back/Forward from the browser cache (bfcache) shows the old DOM: clear it as well
+		const onPageShow = (e: PageTransitionEvent) => e.persisted && resetForm();
+		window.addEventListener('pageshow', onPageShow);
+		return () => window.removeEventListener('pageshow', onPageShow);
 	}, []);
 
 	useEffect(() => {
@@ -58,6 +80,8 @@ const Join: NextPage = () => {
 		const target = referrer && referrer.startsWith('/') && !referrer.startsWith('//') ? referrer : '/';
 		// client-side navigation keeps the success toast on screen; the socket re-identifies with the new token
 		reconnectSocket();
+		// guest results (likes, follows, cart…) must not leak into the member's pages
+		await apolloClient.clearStore();
 		await router.push(target);
 	};
 
@@ -78,6 +102,7 @@ const Join: NextPage = () => {
 				await signUp(input.nick.trim(), input.password, input.phone.trim(), input.type);
 				sweetTopSmallSuccessAlert(t('Your account has been created'), 1800);
 			}
+			resetForm();
 			await redirectAfterAuth();
 		} catch (err: any) {
 			// stay on the page and show exactly what went wrong
@@ -99,12 +124,12 @@ const Join: NextPage = () => {
 					</div>
 				</div>
 
-				<form className={'join-card'} onSubmit={submitHandler}>
+				<form className={'join-card'} onSubmit={submitHandler} autoComplete="off">
 					<div className={'switch'}>
-						<button type="button" className={loginView ? 'active' : ''} onClick={() => setLoginView(true)}>
+						<button type="button" className={loginView ? 'active' : ''} onClick={() => switchView(true)}>
 							{t('Login')}
 						</button>
-						<button type="button" className={!loginView ? 'active' : ''} onClick={() => setLoginView(false)}>
+						<button type="button" className={!loginView ? 'active' : ''} onClick={() => switchView(false)}>
 							{t('Sign up')}
 						</button>
 					</div>
@@ -120,7 +145,9 @@ const Join: NextPage = () => {
 						<label htmlFor="nick">{t('Username')}</label>
 						<input
 							id="nick"
-							autoComplete="username"
+							name="furniture-nick"
+							autoComplete="off"
+							spellCheck={false}
 							maxLength={12}
 							value={input.nick}
 							onChange={(e) => handleInput('nick', e.target.value)}
@@ -134,7 +161,9 @@ const Join: NextPage = () => {
 							<input
 								id="password"
 								type={showPassword ? 'text' : 'password'}
-								autoComplete={loginView ? 'current-password' : 'new-password'}
+								name="furniture-password"
+								// "new-password" stops the browser from pre-filling a saved password
+								autoComplete="new-password"
 								maxLength={12}
 								value={input.password}
 								onChange={(e) => handleInput('password', e.target.value)}
@@ -157,7 +186,7 @@ const Join: NextPage = () => {
 								<input
 									id="phone"
 									type="tel"
-									autoComplete="tel"
+									autoComplete="off"
 									value={input.phone}
 									onChange={(e) => handleInput('phone', e.target.value)}
 									placeholder={'010 1234 5678'}
@@ -195,7 +224,7 @@ const Join: NextPage = () => {
 
 					<p className={'switch-hint'}>
 						{loginView ? t('New to Furniture?') : t('Already have an account?')}{' '}
-						<button type="button" onClick={() => setLoginView(!loginView)}>
+						<button type="button" onClick={() => switchView(!loginView)}>
 							{loginView ? t('Create an account') : t('Log in')}
 						</button>
 					</p>

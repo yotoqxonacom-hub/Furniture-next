@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -7,7 +7,6 @@ import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { ProductType } from '../../enums/product.enum';
 import { Product } from '../../types/product/product';
 import { ProductsInquiry } from '../../types/product/product.input';
-import { T } from '../../types/common';
 import { imageUrl, productSearchLink } from '../../utils';
 
 interface Collection {
@@ -31,8 +30,6 @@ const collections: Collection[] = [
  */
 const CollectionCard = ({ collection }: { collection: Collection }) => {
 	const { t } = useTranslation('common');
-	const [coverProduct, setCoverProduct] = useState<Product | null>(null);
-	const [total, setTotal] = useState<number>(0);
 
 	const input: ProductsInquiry = {
 		page: 1,
@@ -43,15 +40,13 @@ const CollectionCard = ({ collection }: { collection: Collection }) => {
 	};
 
 	/** APOLLO REQUESTS **/
-	useQuery(GET_PRODUCTS, {
+	const { data } = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input },
 		context: { silent: true }, // decorative section: no error alert if it fails
-		onCompleted: (data: T) => {
-			setCoverProduct(data?.getProducts?.list?.[0] ?? null);
-			setTotal(data?.getProducts?.metaCounter?.[0]?.total ?? 0);
-		},
 	});
+	const coverProduct: Product | null = data?.getProducts?.list?.[0] ?? null;
+	const total: number = data?.getProducts?.metaCounter?.[0]?.total ?? 0;
 
 	const cover = coverProduct?.productImages?.[0] ? imageUrl(coverProduct.productImages[0]) : collection.fallbackImage;
 

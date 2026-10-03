@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
@@ -6,7 +6,6 @@ import EastRoundedIcon from '@mui/icons-material/EastRounded';
 import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { Product } from '../../types/product/product';
 import { ProductsInquiry } from '../../types/product/product.input';
-import { T } from '../../types/common';
 import ProductCard from '../common/ProductCard';
 import useLikeProduct from '../../hooks/useLikeProduct';
 import { productSearchLink } from '../../utils';
@@ -23,18 +22,17 @@ interface ProductSectionProps {
 /** Homepage product row: trending (likes), popular (views) and top picks (rank) */
 const ProductSection = ({ eyebrow, title, desc, sort, limit = 4, className = '' }: ProductSectionProps) => {
 	const { t } = useTranslation('common');
-	const [products, setProducts] = useState<Product[]>([]);
 	const input: ProductsInquiry = { page: 1, limit, sort, direction: 'DESC' as any, search: {} };
 
 	/** APOLLO REQUESTS **/
-	const { refetch: getProductsRefetch } = useQuery(GET_PRODUCTS, {
+	// read `data` directly: when the user comes back to home, cached rows render at once,
+	// so the page keeps its height and the scroll position can be restored
+	const { data, refetch: getProductsRefetch } = useQuery(GET_PRODUCTS, {
 		fetchPolicy: 'cache-and-network',
 		variables: { input },
 		notifyOnNetworkStatusChange: true,
-		onCompleted: (data: T) => {
-			setProducts(data?.getProducts?.list ?? []);
-		},
 	});
+	const products: Product[] = data?.getProducts?.list ?? [];
 
 	const likeProductHandler = useLikeProduct(() => getProductsRefetch({ input }));
 

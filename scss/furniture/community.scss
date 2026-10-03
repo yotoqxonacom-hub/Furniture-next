@@ -1,0 +1,303 @@
+@import '../variables.scss';
+
+.fx-container.narrow {
+	max-width: 860px;
+}
+
+/* =================== COMMUNITY LIST =================== */
+.community-page {
+	.community-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-bottom: 28px;
+		.fx-chip-row {
+			flex: 1;
+			min-width: 0;
+		}
+		@include sm {
+			flex-direction: column-reverse;
+			align-items: stretch;
+			.fx-btn {
+				align-self: flex-end;
+			}
+		}
+	}
+}
+
+.fx-article-card {
+	display: flex;
+	flex-direction: column;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	overflow: hidden;
+	cursor: pointer;
+	height: 100%;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	&:hover {
+		transform: translateY(-3px);
+		box-shadow: $shadow;
+		.title {
+			color: $clay;
+		}
+	}
+	.media {
+		position: relative;
+		aspect-ratio: 16 / 10;
+		background: $sand;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.fx-badge {
+			position: absolute;
+			top: 12px;
+			left: 12px;
+			background: rgba(255, 255, 255, 0.94);
+		}
+	}
+	.body {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		padding: 16px 18px 18px;
+		flex: 1;
+	}
+	.title {
+		font-family: $font-display;
+		font-size: 19px;
+		font-weight: 600;
+		line-height: 1.3;
+		@include clamp-lines(2);
+		transition: color 0.2s ease;
+	}
+	.author {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 13px;
+		img {
+			width: 26px;
+			height: 26px;
+			border-radius: 50%;
+			object-fit: cover;
+		}
+		span {
+			font-weight: 700;
+		}
+		small {
+			color: $muted;
+		}
+	}
+	.stats {
+		margin-top: auto;
+		padding-top: 12px;
+		border-top: 1px solid $line;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		font-size: 13px;
+		color: $muted;
+		span,
+		button {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+		svg {
+			font-size: 17px;
+		}
+		button {
+			margin-left: auto;
+			background: none;
+			border: none;
+			cursor: pointer;
+			font-family: $font;
+			font-size: 13px;
+			color: $muted;
+			padding: 4px;
+			&.liked {
+				color: $clay;
+			}
+		}
+	}
+}
+
+/* =================== ARTICLE DETAIL =================== */
+.article-page {
+	.back-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 14px;
+		font-weight: 700;
+		color: $muted;
+		margin-bottom: 18px;
+		&:hover {
+			color: $clay;
+		}
+	}
+	.article-head {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 14px;
+		margin-bottom: 24px;
+		h1 {
+			@include display(42px);
+			@include sm {
+				font-size: 30px;
+			}
+		}
+		.byline {
+			display: flex;
+			flex-wrap: wrap; /* the Follow button drops below on small phones */
+			align-items: center;
+			gap: 12px;
+			width: 100%;
+			img {
+				width: 44px;
+				height: 44px;
+				border-radius: 50%;
+				object-fit: cover;
+				cursor: pointer;
+			}
+			strong {
+				display: block;
+				font-size: 15px;
+				cursor: pointer;
+				&:hover {
+					color: $clay;
+				}
+			}
+			span {
+				font-size: 13px;
+				color: $muted;
+			}
+			.counts {
+				margin-left: auto;
+				display: flex;
+				gap: 14px;
+				span {
+					display: inline-flex;
+					align-items: center;
+					gap: 4px;
+				}
+				svg {
+					font-size: 18px;
+				}
+			}
+		}
+	}
+	.article-cover {
+		border-radius: $radius-lg;
+		overflow: hidden;
+		margin-bottom: 20px;
+		background: $sand;
+		img {
+			width: 100%;
+			max-height: 480px;
+			object-fit: cover;
+			display: block;
+		}
+	}
+	.article-viewer {
+		border: 1px solid $line;
+		.toastui-editor-contents {
+			font-family: $font;
+			font-size: 16px;
+			line-height: 1.8;
+			img {
+				max-width: 100%;
+				border-radius: 12px;
+			}
+		}
+	}
+	.article-actions {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 12px;
+		margin-top: 20px;
+		.fx-btn.liked {
+			color: $clay;
+			border-color: $clay;
+		}
+	}
+	.article-comments {
+		margin-top: 44px;
+		h2 {
+			@include display(26px);
+			margin-bottom: 18px;
+		}
+		.comment-form {
+			display: flex;
+			gap: 12px;
+			margin-bottom: 12px;
+			> img {
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+			}
+			.field {
+				flex: 1;
+				min-width: 0;
+			}
+		}
+		textarea {
+			width: 100%;
+			min-height: 84px;
+			border: 1px solid $line;
+			border-radius: 12px;
+			padding: 12px 14px;
+			font-family: $font;
+			font-size: 15px;
+			resize: vertical;
+			outline: none;
+			background: $surface;
+			&:focus {
+				border-color: $clay;
+			}
+		}
+		.row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 8px;
+			margin-top: 8px;
+			span {
+				font-size: 12px;
+				color: $muted;
+			}
+		}
+		.edit-box {
+			margin-top: 8px;
+			.row {
+				justify-content: flex-end;
+			}
+		}
+		.comment-tools {
+			display: flex;
+			gap: 12px;
+			margin-top: 6px;
+			button {
+				background: none;
+				border: none;
+				padding: 0;
+				font-family: $font;
+				font-size: 12px;
+				font-weight: 700;
+				color: $muted;
+				cursor: pointer;
+				&:hover {
+					color: $clay;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,280 @@
+@import '../variables.scss';
+
+/* =================== JOIN =================== */
+.join-page {
+	.join-layout {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 40px;
+		align-items: center;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+	.join-art {
+		position: relative;
+		border-radius: $radius-lg;
+		overflow: hidden;
+		img {
+			display: block;
+			width: 100%;
+		}
+		.quote {
+			position: absolute;
+			left: 20px;
+			right: 20px;
+			bottom: 20px;
+			padding: 18px 20px;
+			background: rgba(255, 255, 255, 0.94);
+			border-radius: 16px;
+			strong {
+				display: block;
+				font-family: $font-display;
+				font-size: 18px;
+				font-weight: 500;
+				font-style: italic;
+				line-height: 1.4;
+			}
+			span {
+				font-size: 13px;
+				color: $muted;
+			}
+		}
+		@include md {
+			display: none;
+		}
+	}
+	.join-card {
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		background: $surface;
+		border: 1px solid $line;
+		border-radius: $radius-lg;
+		padding: 32px;
+		max-width: 520px;
+		width: 100%;
+		justify-self: center;
+		box-shadow: $shadow;
+		h2 {
+			@include display(32px);
+		}
+		@include sm {
+			padding: 22px 18px;
+			h2 {
+				font-size: 26px;
+			}
+		}
+	}
+	.switch {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 4px;
+		padding: 4px;
+		border-radius: 999px;
+		background: $bg;
+		border: 1px solid $line;
+		button {
+			height: 40px;
+			border: none;
+			border-radius: 999px;
+			background: transparent;
+			font-family: $font;
+			font-weight: 700;
+			font-size: 14px;
+			cursor: pointer;
+			color: $muted;
+			&.active {
+				background: $ink;
+				color: #fff;
+			}
+		}
+	}
+	.password-wrap {
+		position: relative;
+		input {
+			padding-right: 48px;
+		}
+		button {
+			position: absolute;
+			right: 8px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: none;
+			border: none;
+			cursor: pointer;
+			color: $muted;
+			display: flex;
+			padding: 6px;
+		}
+	}
+	.role-pick {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 10px;
+		button {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 4px;
+			padding: 14px;
+			border-radius: 14px;
+			border: 1.5px solid $line;
+			background: $surface;
+			cursor: pointer;
+			text-align: left;
+			font-family: $font;
+			color: $ink;
+			svg {
+				color: $muted;
+				margin-bottom: 4px;
+			}
+			strong {
+				font-size: 14px;
+			}
+			small {
+				font-size: 12px;
+				color: $muted;
+			}
+			&.active {
+				border-color: $clay;
+				background: $clay-soft;
+				svg {
+					color: $clay;
+				}
+			}
+		}
+	}
+	.switch-hint {
+		text-align: center;
+		font-size: 14px;
+		color: $muted;
+		button {
+			background: none;
+			border: none;
+			color: $clay;
+			font-weight: 700;
+			cursor: pointer;
+			font-family: $font;
+			font-size: 14px;
+		}
+	}
+}
+
+/* =================== ABOUT =================== */
+.about-page {
+	.about-intro {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 40px;
+		h2 {
+			@include display(42px);
+		}
+		p {
+			font-size: 17px;
+			line-height: 1.8;
+			color: $ink-2;
+		}
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 18px;
+			h2 {
+				font-size: 32px;
+			}
+		}
+	}
+	.about-stats {
+		margin-top: 56px;
+		background: $ink;
+		color: #fff;
+		.stats-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 20px;
+			padding-top: 40px;
+			padding-bottom: 40px;
+			div {
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+			strong {
+				font-family: $font-display;
+				font-size: 44px;
+				font-weight: 600;
+				color: $mustard;
+			}
+			span {
+				color: #d9cfc3;
+			}
+			@include md {
+				grid-template-columns: 1fr 1fr;
+			}
+			@include sm {
+				strong {
+					font-size: 34px;
+				}
+			}
+		}
+	}
+	.values-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 20px;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.value {
+			.icon {
+				width: 52px;
+				height: 52px;
+				border-radius: 16px;
+				background: $sage-soft;
+				color: $sage-dark;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 16px;
+			}
+			h3 {
+				font-family: $font-display;
+				font-size: 22px;
+				font-weight: 600;
+				margin-bottom: 8px;
+			}
+			p {
+				color: $ink-2;
+				line-height: 1.7;
+			}
+		}
+	}
+	.about-cta {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+		padding: 36px 40px;
+		border-radius: $radius-lg;
+		background: $clay-soft;
+		h2 {
+			@include display(32px);
+		}
+		p {
+			color: $ink-2;
+			margin-top: 6px;
+		}
+		@include sm {
+			flex-direction: column;
+			align-items: flex-start;
+			padding: 26px 22px;
+			h2 {
+				font-size: 26px;
+			}
+		}
+	}
+}
+
+/* pages without a banner (product detail) */
+#main.offset-top {
+	padding-top: 0;
+}

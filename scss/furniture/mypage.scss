@@ -1,0 +1,721 @@
+@import '../variables.scss';
+
+/* =================== MY PAGE LAYOUT =================== */
+.my-page {
+	.my-layout {
+		display: grid;
+		grid-template-columns: 290px minmax(0, 1fr);
+		gap: 32px;
+		align-items: start;
+		@include lg {
+			grid-template-columns: 250px minmax(0, 1fr);
+			gap: 24px;
+		}
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 18px;
+		}
+	}
+	.my-aside {
+		position: sticky;
+		top: calc(#{$header-h} + 20px);
+		@include md {
+			position: static;
+		}
+	}
+}
+
+.my-menu {
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	overflow: hidden;
+
+	.profile {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		padding: 20px;
+		border-bottom: 1px solid $line;
+		background: linear-gradient(135deg, $bg 0%, $sand 100%);
+		img {
+			width: 64px;
+			height: 64px;
+			border-radius: 50%;
+			object-fit: cover;
+			border: 3px solid $surface;
+			flex-shrink: 0;
+		}
+		> div {
+			display: flex;
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 4px;
+			min-width: 0;
+		}
+		strong {
+			font-size: 17px;
+			@include clamp-lines(1);
+		}
+		.phone {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			font-size: 13px;
+			color: $muted;
+			svg {
+				font-size: 15px;
+			}
+		}
+	}
+	.menu-groups {
+		display: flex;
+		flex-direction: column;
+		padding: 10px;
+		.group {
+			display: flex;
+			flex-direction: column;
+			padding: 6px 0;
+			& + .group {
+				border-top: 1px solid $line;
+			}
+		}
+		.group-title {
+			font-size: 11px;
+			font-weight: 800;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: #a69c90;
+			padding: 8px 12px 6px;
+		}
+		a,
+		.logout {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 11px 12px;
+			border-radius: 12px;
+			font-size: 15px;
+			font-weight: 600;
+			color: $ink-2;
+			background: none;
+			border: none;
+			cursor: pointer;
+			font-family: $font;
+			text-align: left;
+			transition: background 0.2s ease;
+			svg {
+				font-size: 20px;
+				color: $muted;
+			}
+			&:hover {
+				background: $bg;
+			}
+			&.active {
+				background: $ink;
+				color: #fff;
+				svg {
+					color: $mustard;
+				}
+			}
+		}
+		.logout {
+			margin-top: 6px;
+			border-top: 1px solid $line;
+			border-radius: 0 0 12px 12px;
+			padding-top: 14px;
+			&:hover {
+				color: $danger;
+				svg {
+					color: $danger;
+				}
+			}
+		}
+	}
+	.menu-chips {
+		display: none;
+		padding: 12px;
+		border-top: 1px solid $line;
+		.fx-chip {
+			height: 36px;
+			font-size: 13px;
+		}
+	}
+
+	@include md {
+		.menu-groups {
+			display: none;
+		}
+		.menu-chips {
+			display: flex;
+		}
+		.profile {
+			padding: 16px;
+			img {
+				width: 52px;
+				height: 52px;
+			}
+		}
+	}
+}
+
+.my-section {
+	min-width: 0;
+}
+.my-head {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 14px;
+	margin-bottom: 20px;
+	h2 {
+		@include display(30px);
+		@include sm {
+			font-size: 25px;
+		}
+	}
+	p {
+		color: $muted;
+		font-size: 14px;
+		margin-top: 4px;
+	}
+	@include sm {
+		align-items: flex-start;
+		flex-direction: column;
+	}
+}
+
+.form-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: 10px;
+	margin-top: 22px;
+	&.sticky {
+		position: sticky;
+		bottom: 0;
+		z-index: 2;
+		padding: 14px 0;
+		background: linear-gradient(180deg, rgba(250, 247, 242, 0) 0%, $bg 30%);
+	}
+	@include sm {
+		.fx-btn {
+			flex: 1;
+		}
+	}
+}
+
+/* =================== LISTINGS =================== */
+.listing-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.listing-card {
+	display: grid;
+	grid-template-columns: 120px minmax(0, 1fr) auto auto auto;
+	align-items: center;
+	gap: 18px;
+	padding: 12px;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	.thumb {
+		width: 120px;
+		height: 90px;
+		border-radius: 12px;
+		overflow: hidden;
+		background: $sand;
+		cursor: pointer;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+	.main {
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		min-width: 0;
+		cursor: pointer;
+		.type {
+			font-size: 11px;
+			font-weight: 800;
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			color: $sage-dark;
+		}
+		strong {
+			font-size: 16px;
+			@include clamp-lines(1);
+		}
+		.address {
+			font-size: 13px;
+			color: $muted;
+			@include clamp-lines(1);
+		}
+		&:hover strong {
+			color: $clay;
+		}
+	}
+	.price {
+		font-family: $font-display;
+		font-size: 20px;
+		font-weight: 600;
+	}
+	.meta {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		font-size: 13px;
+		color: $muted;
+		span {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+		}
+		svg {
+			font-size: 16px;
+		}
+		small {
+			font-size: 12px;
+		}
+	}
+	.controls {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		.status-btn {
+			border: none;
+			cursor: pointer;
+			font-family: $font;
+		}
+		.fx-icon-btn {
+			width: 36px;
+			height: 36px;
+		}
+	}
+	@include md {
+		grid-template-columns: 96px minmax(0, 1fr) auto;
+		grid-template-areas:
+			'thumb main controls'
+			'thumb price meta';
+		.thumb {
+			grid-area: thumb;
+			width: 96px;
+			height: 96px;
+		}
+		.main {
+			grid-area: main;
+		}
+		.price {
+			grid-area: price;
+			font-size: 18px;
+		}
+		.meta {
+			grid-area: meta;
+			flex-direction: row;
+			gap: 10px;
+			small {
+				display: none;
+			}
+		}
+		.controls {
+			grid-area: controls;
+			align-self: start;
+		}
+	}
+	@include sm {
+		gap: 10px 12px;
+		grid-template-columns: 76px minmax(0, 1fr);
+		grid-template-areas:
+			'thumb main'
+			'thumb price'
+			'controls controls';
+		.thumb {
+			width: 76px;
+			height: 76px;
+		}
+		.meta {
+			display: none;
+		}
+		.controls {
+			justify-content: flex-end;
+			border-top: 1px solid $line;
+			padding-top: 10px;
+		}
+	}
+}
+
+/* =================== PRODUCT FORM =================== */
+.product-form {
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+	h3 {
+		font-family: $font-display;
+		font-size: 20px;
+		font-weight: 600;
+		margin-bottom: 16px;
+	}
+	.image-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+		gap: 12px;
+	}
+	.image-item {
+		position: relative;
+		aspect-ratio: 1 / 1;
+		border-radius: 14px;
+		overflow: hidden;
+		background: $sand;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			cursor: pointer;
+		}
+		.cover {
+			position: absolute;
+			left: 8px;
+			bottom: 8px;
+		}
+		button {
+			position: absolute;
+			top: 6px;
+			right: 6px;
+			width: 28px;
+			height: 28px;
+			border-radius: 50%;
+			border: none;
+			background: rgba(255, 255, 255, 0.92);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			cursor: pointer;
+			svg {
+				font-size: 18px;
+			}
+		}
+	}
+	.upload-tile {
+		aspect-ratio: 1 / 1;
+		border: 2px dashed $sand-2;
+		border-radius: 14px;
+		background: $bg;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 6px;
+		cursor: pointer;
+		font-family: $font;
+		color: $ink-2;
+		font-weight: 700;
+		font-size: 14px;
+		transition: border-color 0.2s ease;
+		svg {
+			color: $clay;
+			font-size: 30px;
+		}
+		small {
+			color: $muted;
+			font-weight: 500;
+		}
+		&:hover {
+			border-color: $clay;
+		}
+	}
+	.hint {
+		margin-top: 12px;
+		font-size: 13px;
+		color: $muted;
+	}
+	.toggle-row {
+		display: flex;
+		gap: 8px;
+	}
+}
+
+.profile-form {
+	.avatar-row {
+		display: flex;
+		align-items: center;
+		gap: 18px;
+		margin-bottom: 24px;
+		p {
+			font-size: 13px;
+			color: $muted;
+			margin-top: 8px;
+		}
+	}
+	.avatar {
+		position: relative;
+		width: 92px;
+		height: 92px;
+		border-radius: 50%;
+		overflow: hidden;
+		background: $sand;
+		flex-shrink: 0;
+		img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+		.uploading {
+			position: absolute;
+			inset: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			background: rgba(255, 255, 255, 0.7);
+			font-size: 24px;
+			font-weight: 800;
+		}
+	}
+}
+
+/* =================== ARTICLE EDITOR =================== */
+.article-editor {
+	display: flex;
+	flex-direction: column;
+	gap: 16px;
+	.cover-row {
+		margin-top: 18px;
+	}
+	.cover-preview {
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		img {
+			width: 160px;
+			height: 100px;
+			object-fit: cover;
+			border-radius: 12px;
+		}
+	}
+	.editor-wrap {
+		background: $surface;
+		border-radius: $radius;
+		overflow: hidden;
+		border: 1px solid $line;
+		.toastui-editor-defaultUI {
+			border: none;
+		}
+	}
+	.form-actions {
+		margin-top: 0;
+	}
+}
+
+/* =================== REPORTS =================== */
+.report-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+.report-item {
+	display: grid;
+	grid-template-columns: auto minmax(0, 1fr) auto;
+	gap: 16px;
+	align-items: start;
+	padding: 18px;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	.group-icon {
+		width: 46px;
+		height: 46px;
+		border-radius: 14px;
+		background: $sand;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: $clay;
+	}
+	.content {
+		display: flex;
+		flex-direction: column;
+		gap: 6px;
+		.line {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+			gap: 8px;
+			strong {
+				font-size: 16px;
+			}
+		}
+		p {
+			font-size: 14px;
+			color: $ink-2;
+			white-space: pre-line;
+			word-break: break-word;
+		}
+		small {
+			font-size: 12px;
+			color: $muted;
+		}
+	}
+	.side {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-end;
+		gap: 10px;
+		.open-link {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			font-size: 13px;
+			font-weight: 700;
+			color: $clay;
+			svg {
+				font-size: 16px;
+			}
+		}
+	}
+	@include sm {
+		grid-template-columns: auto minmax(0, 1fr);
+		.side {
+			grid-column: 1 / -1;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			border-top: 1px solid $line;
+			padding-top: 12px;
+		}
+	}
+}
+
+/* =================== FOLLOWS =================== */
+.follow-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.follow-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 14px 16px;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	.who {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		min-width: 0;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		font-family: $font;
+		padding: 0;
+		img {
+			width: 50px;
+			height: 50px;
+			border-radius: 50%;
+			object-fit: cover;
+			flex-shrink: 0;
+		}
+		strong {
+			display: block;
+			font-size: 15px;
+			color: $ink;
+		}
+		span {
+			font-size: 13px;
+			color: $muted;
+		}
+		&:hover strong {
+			color: $clay;
+		}
+	}
+	.acts {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		flex-shrink: 0;
+	}
+	@include sm {
+		.who span {
+			display: none;
+		}
+	}
+}
+
+/* =================== MEMBER PAGE =================== */
+.member-page {
+	.member-header {
+		margin-bottom: 26px;
+		.card {
+			display: flex;
+			align-items: center;
+			gap: 22px;
+			padding: 24px;
+			background: $surface;
+			border: 1px solid $line;
+			border-radius: $radius-lg;
+			.avatar {
+				width: 104px;
+				height: 104px;
+				border-radius: 50%;
+				object-fit: cover;
+				border: 4px solid $bg;
+				box-shadow: 0 0 0 1px $line;
+				flex-shrink: 0;
+			}
+			.info {
+				flex: 1;
+				min-width: 0;
+				display: flex;
+				flex-direction: column;
+				align-items: flex-start;
+				gap: 6px;
+				h2 {
+					@include display(30px);
+				}
+				.phone {
+					display: inline-flex;
+					align-items: center;
+					gap: 4px;
+					font-size: 14px;
+					color: $muted;
+					svg {
+						font-size: 17px;
+					}
+				}
+				p {
+					font-size: 14px;
+					color: $ink-2;
+				}
+			}
+			.actions {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 8px;
+			}
+			@include sm {
+				flex-direction: column;
+				align-items: flex-start;
+				padding: 20px;
+				.actions {
+					width: 100%;
+					.fx-btn {
+						flex: 1 1 auto;
+						min-width: 0;
+					}
+				}
+			}
+		}
+		.member-tabs {
+			margin-top: 16px;
+			.count {
+				opacity: 0.6;
+				font-weight: 700;
+			}
+		}
+	}
+}

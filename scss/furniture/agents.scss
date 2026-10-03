@@ -1,0 +1,343 @@
+@import '../variables.scss';
+
+.agents-page {
+	.agents-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 14px;
+		margin-bottom: 26px;
+		@include sm {
+			flex-direction: column;
+			align-items: stretch;
+		}
+	}
+	.toolbar-actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: flex-end;
+		gap: 10px;
+		@include sm {
+			justify-content: space-between;
+		}
+	}
+	.agents-search {
+		flex: 1;
+		max-width: 520px;
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		background: $surface;
+		border: 1px solid $line;
+		border-radius: 999px;
+		padding: 5px 5px 5px 16px;
+		svg {
+			color: $muted;
+		}
+		input {
+			flex: 1;
+			min-width: 0;
+			border: none;
+			outline: none;
+			background: transparent;
+			font-family: $font;
+			font-size: 15px;
+		}
+		&:focus-within {
+			border-color: $clay;
+		}
+		@include sm {
+			max-width: none;
+		}
+	}
+	.sort {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		font-size: 14px;
+		color: $muted;
+		select {
+			appearance: none;
+			height: 40px;
+			padding: 0 34px 0 14px;
+			border-radius: 999px;
+			border: 1px solid $line;
+			background: $surface
+				url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232B2420' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+				no-repeat right 14px center;
+			font-family: $font;
+			font-weight: 700;
+			font-size: 14px;
+			color: $ink;
+			outline: none;
+			cursor: pointer;
+		}
+		@include sm {
+			justify-content: space-between;
+		}
+	}
+}
+
+.agent-detail {
+	.profile-card {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		grid-template-areas:
+			'avatar info stats'
+			'avatar actions actions';
+		gap: 18px 28px;
+		align-items: center;
+		background: $surface;
+		border: 1px solid $line;
+		border-radius: $radius-lg;
+		padding: 28px;
+
+		.avatar {
+			grid-area: avatar;
+			width: 132px;
+			height: 132px;
+			border-radius: 50%;
+			object-fit: cover;
+			background: $sand;
+			border: 5px solid $bg;
+			box-shadow: 0 0 0 1px $line;
+		}
+		.info {
+			grid-area: info;
+			display: flex;
+			flex-direction: column;
+			gap: 8px;
+			align-items: flex-start;
+			h2 {
+				@include display(32px);
+			}
+			.meta {
+				display: flex;
+				flex-wrap: wrap;
+				gap: 16px;
+				font-size: 14px;
+				color: $muted;
+				span {
+					display: inline-flex;
+					align-items: center;
+					gap: 4px;
+				}
+				svg {
+					font-size: 18px;
+				}
+			}
+			.desc {
+				font-size: 15px;
+				color: $ink-2;
+				max-width: 620px;
+			}
+		}
+		.stats {
+			grid-area: stats;
+			display: flex;
+			gap: 10px;
+			div {
+				min-width: 86px;
+				padding: 12px 14px;
+				border-radius: 14px;
+				background: $bg;
+				text-align: center;
+				display: flex;
+				flex-direction: column;
+			}
+			strong {
+				font-family: $font-display;
+				font-size: 24px;
+			}
+			span {
+				font-size: 12px;
+				color: $muted;
+			}
+		}
+		.actions {
+			grid-area: actions;
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			gap: 10px;
+			.fx-btn.liked {
+				color: $clay;
+				border-color: $clay;
+			}
+			.report-link {
+				margin-left: auto;
+			}
+		}
+
+		@include md {
+			grid-template-columns: auto minmax(0, 1fr);
+			grid-template-areas:
+				'avatar info'
+				'stats stats'
+				'actions actions';
+			.avatar {
+				width: 96px;
+				height: 96px;
+			}
+		}
+		@include sm {
+			grid-template-columns: minmax(0, 1fr);
+			grid-template-areas:
+				'avatar'
+				'info'
+				'stats'
+				'actions';
+			padding: 22px 18px;
+			text-align: left;
+			.info h2 {
+				font-size: 26px;
+			}
+			.stats div {
+				flex: 1;
+				min-width: 0;
+			}
+			.actions {
+				.fx-btn {
+					flex: 1;
+				}
+				.report-link {
+					margin-left: 0;
+					width: 100%;
+					justify-content: center;
+					padding-top: 6px;
+				}
+			}
+		}
+	}
+
+	.agent-reviews {
+		margin-top: 64px;
+		@include sm {
+			margin-top: 44px;
+		}
+	}
+	.reviews-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+		gap: 32px;
+		align-items: start;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			.review-box {
+				order: -1;
+			}
+		}
+	}
+	.review-box {
+		position: sticky;
+		top: calc(#{$header-h} + 20px);
+		h3 {
+			font-family: $font-display;
+			font-size: 20px;
+			font-weight: 600;
+			margin-bottom: 14px;
+		}
+		form {
+			display: flex;
+			flex-direction: column;
+			gap: 12px;
+		}
+		textarea {
+			width: 100%;
+			min-height: 110px;
+			border: 1px solid $line;
+			border-radius: 12px;
+			padding: 12px;
+			font-family: $font;
+			font-size: 15px;
+			resize: vertical;
+			outline: none;
+			&:focus {
+				border-color: $clay;
+			}
+		}
+		@include md {
+			position: static;
+		}
+	}
+}
+
+/* own card in the sellers grid */
+.fx-agent-card {
+	position: relative;
+	&.is-me {
+		border-color: $clay;
+		box-shadow: 0 0 0 2px $clay-soft;
+	}
+	.me-badge {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+	}
+}
+
+/* "Your shop" panel on top of the sellers page (agents only) */
+.my-shop-panel {
+	display: flex;
+	align-items: center;
+	gap: 18px;
+	padding: 18px 20px;
+	margin-bottom: 26px;
+	background: $clay-soft;
+	border: 1px solid #ecd2c2;
+	border-radius: $radius;
+	> img {
+		width: 64px;
+		height: 64px;
+		border-radius: 50%;
+		object-fit: cover;
+		background: $surface;
+		flex-shrink: 0;
+	}
+	.text {
+		flex: 1;
+		min-width: 0;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 4px;
+		strong {
+			font-family: $font-display;
+			font-size: 20px;
+		}
+		p {
+			font-size: 14px;
+			color: $ink-2;
+		}
+	}
+	.actions {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		justify-content: flex-end;
+	}
+	@include md {
+		flex-wrap: wrap;
+		.actions {
+			width: 100%;
+			justify-content: flex-start;
+		}
+	}
+	@include sm {
+		> img {
+			width: 52px;
+			height: 52px;
+		}
+		.actions .fx-btn {
+			flex: 1 1 auto;
+		}
+	}
+}
+
+/* Follow button inside seller cards (sellers list, home "Top sellers") */
+.fx-agent-card .card-follow {
+	width: 100%;
+	justify-content: center;
+	margin-top: 4px;
+}

@@ -1,0 +1,334 @@
+@import '../variables.scss';
+
+.cs-page {
+	.cs-layout {
+		display: grid;
+		grid-template-columns: 260px minmax(0, 1fr);
+		gap: 36px;
+		align-items: start;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 22px;
+		}
+	}
+	.cs-aside {
+		position: sticky;
+		top: calc(#{$header-h} + 20px);
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		@include md {
+			position: static;
+		}
+	}
+	.cs-tabs {
+		display: flex;
+		flex-direction: column;
+		gap: 4px;
+		background: $surface;
+		border: 1px solid $line;
+		border-radius: $radius;
+		padding: 8px;
+		button {
+			display: flex;
+			align-items: center;
+			gap: 12px;
+			padding: 13px 14px;
+			border-radius: 12px;
+			border: none;
+			background: none;
+			font-family: $font;
+			font-size: 15px;
+			font-weight: 700;
+			color: $ink-2;
+			cursor: pointer;
+			text-align: left;
+			svg {
+				color: $muted;
+			}
+			&:hover {
+				background: $bg;
+			}
+			&.active {
+				background: $ink;
+				color: #fff;
+				svg {
+					color: $mustard;
+				}
+			}
+		}
+		@include md {
+			flex-direction: row;
+			overflow-x: auto;
+			border-radius: 999px;
+			padding: 6px;
+			scrollbar-width: none;
+			&::-webkit-scrollbar {
+				display: none;
+			}
+			button {
+				flex: 1;
+				justify-content: center;
+				border-radius: 999px;
+				padding: 10px 14px;
+				white-space: nowrap;
+				font-size: 14px;
+			}
+		}
+	}
+	.cs-contact {
+		background: $sage-soft;
+		border-radius: $radius;
+		padding: 20px;
+		display: flex;
+		flex-direction: column;
+		gap: 8px;
+		strong {
+			font-family: $font-display;
+			font-size: 19px;
+		}
+		p {
+			font-size: 14px;
+			color: $ink-2;
+			margin-bottom: 4px;
+		}
+		a {
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 14px;
+			font-weight: 700;
+			color: $sage-dark;
+			overflow-wrap: anywhere; /* long e-mail addresses */
+		}
+		@include md {
+			display: none;
+		}
+	}
+	.cs-loading {
+		display: flex;
+		justify-content: center;
+		padding: 60px 0;
+	}
+}
+
+.cs-search {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: 999px;
+	padding: 5px 5px 5px 16px;
+	min-height: 50px; /* searches as you type, so there is no Search button to give it height */
+	margin-bottom: 20px;
+	svg {
+		color: $muted;
+	}
+	input {
+		flex: 1;
+		min-width: 0;
+		border: none;
+		outline: none;
+		background: transparent;
+		font-family: $font;
+		font-size: 15px;
+	}
+	&:focus-within {
+		border-color: $clay;
+	}
+}
+
+.faq-list {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+}
+.faq-item {
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	overflow: hidden;
+	transition: border-color 0.2s ease;
+	&.open {
+		border-color: $sand-2;
+		.toggle {
+			transform: rotate(45deg);
+			background: $clay;
+			color: #fff;
+		}
+	}
+	.question {
+		width: 100%;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		padding: 18px 20px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		font-family: $font;
+		strong {
+			flex: 1;
+			font-size: 16px;
+			color: $ink;
+		}
+		.toggle {
+			width: 32px;
+			height: 32px;
+			padding: 6px;
+			border-radius: 50%;
+			background: $bg;
+			transition: transform 0.25s ease, background 0.2s ease;
+			flex-shrink: 0;
+		}
+	}
+	.q,
+	.a {
+		width: 30px;
+		height: 30px;
+		border-radius: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-family: $font-display;
+		font-weight: 700;
+		flex-shrink: 0;
+	}
+	.q {
+		background: $clay-soft;
+		color: $clay-dark;
+	}
+	.answer {
+		display: flex;
+		gap: 14px;
+		padding: 0 20px 20px;
+		.a {
+			background: $sage-soft;
+			color: $sage-dark;
+		}
+		p {
+			font-size: 15px;
+			line-height: 1.75;
+			color: $ink-2;
+			white-space: pre-line;
+			padding-top: 4px;
+		}
+	}
+	@include sm {
+		.question {
+			padding: 14px;
+			gap: 10px;
+			strong {
+				font-size: 15px;
+			}
+		}
+		.answer {
+			padding: 0 14px 16px;
+			gap: 10px;
+		}
+	}
+}
+
+.notice-list {
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	overflow: hidden;
+}
+.notice-item {
+	border-bottom: 1px solid $line;
+	&:last-child {
+		border-bottom: none;
+	}
+	&.open .toggle {
+		transform: rotate(180deg);
+	}
+	.notice-row {
+		width: 100%;
+		display: grid;
+		grid-template-columns: 50px minmax(0, 1fr) auto 28px;
+		align-items: center;
+		gap: 12px;
+		padding: 18px 20px;
+		background: none;
+		border: none;
+		cursor: pointer;
+		text-align: left;
+		font-family: $font;
+		&:hover {
+			background: $bg;
+		}
+		.num {
+			color: $muted;
+			font-size: 14px;
+		}
+		.title {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 15px;
+			font-weight: 700;
+			color: $ink;
+			min-width: 0;
+		}
+		.date {
+			font-size: 13px;
+			color: $muted;
+		}
+		.toggle {
+			color: $muted;
+			transition: transform 0.25s ease;
+		}
+		@include sm {
+			grid-template-columns: minmax(0, 1fr) 24px;
+			grid-template-areas:
+				'title toggle'
+				'date toggle';
+			gap: 4px 10px;
+			padding: 14px 16px;
+			.num {
+				display: none;
+			}
+			.title {
+				grid-area: title;
+				flex-wrap: wrap;
+			}
+			.date {
+				grid-area: date;
+			}
+			.toggle {
+				grid-area: toggle;
+			}
+		}
+	}
+	.notice-body {
+		padding: 4px 20px 22px 82px;
+		font-size: 15px;
+		line-height: 1.75;
+		color: $ink-2;
+		white-space: pre-line;
+		@include sm {
+			padding: 0 16px 18px;
+		}
+	}
+}
+
+.cs-terms {
+	display: flex;
+	flex-direction: column;
+	gap: 26px;
+	h3 {
+		font-family: $font-display;
+		font-size: 20px;
+		font-weight: 600;
+		margin-bottom: 8px;
+	}
+	p {
+		font-size: 15px;
+		line-height: 1.8;
+		color: $ink-2;
+		white-space: pre-line;
+	}
+}

@@ -1,0 +1,597 @@
+@import '../variables.scss';
+
+/* =================== SHOP LIST =================== */
+.shop-page {
+	.shop-layout {
+		display: grid;
+		grid-template-columns: 280px minmax(0, 1fr);
+		gap: 36px;
+		align-items: start;
+		@include lg {
+			grid-template-columns: 250px minmax(0, 1fr);
+			gap: 24px;
+		}
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+	.shop-aside {
+		position: sticky;
+		top: calc(#{$header-h} + 20px);
+		@include md {
+			display: none;
+		}
+	}
+	.shop-toolbar {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		flex-wrap: wrap;
+		gap: 12px;
+		margin-bottom: 18px;
+		.count {
+			font-size: 15px;
+			color: $muted;
+			strong {
+				color: $ink;
+				font-size: 18px;
+			}
+		}
+		.controls {
+			display: flex;
+			flex-wrap: wrap;
+			align-items: center;
+			justify-content: flex-end;
+			gap: 10px;
+			min-width: 0;
+		}
+		.filter-toggle {
+			display: none;
+			@include md {
+				display: inline-flex;
+			}
+		}
+		.sort {
+			display: flex;
+			align-items: center;
+			gap: 8px;
+			font-size: 14px;
+			color: $muted;
+			select {
+				appearance: none;
+				height: 38px;
+				padding: 0 34px 0 14px;
+				border-radius: 999px;
+				border: 1px solid $line;
+				background: $surface
+					url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%232B2420' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E")
+					no-repeat right 14px center;
+				font-family: $font;
+				font-weight: 700;
+				font-size: 14px;
+				color: $ink;
+				cursor: pointer;
+				outline: none;
+				max-width: 100%;
+				text-overflow: ellipsis;
+			}
+			@include sm {
+				span {
+					display: none;
+				}
+			}
+		}
+	}
+	.active-chips {
+		margin-bottom: 18px;
+		.fx-chip {
+			height: 34px;
+			font-size: 13px;
+		}
+	}
+	.is-loading {
+		opacity: 0.55;
+		transition: opacity 0.2s ease;
+	}
+}
+
+.shop-filter {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	background: $surface;
+	border: 1px solid $line;
+	border-radius: $radius;
+	padding: 20px;
+
+	.filter-head {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: 8px;
+		strong {
+			font-family: $font-display;
+			font-size: 20px;
+			font-weight: 600;
+		}
+		.reset {
+			display: inline-flex;
+			align-items: center;
+			gap: 4px;
+			background: none;
+			border: none;
+			color: $clay;
+			font-weight: 700;
+			font-size: 13px;
+			cursor: pointer;
+		}
+	}
+	.filter-search {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		border: 1px solid $line;
+		border-radius: 12px;
+		padding: 0 12px;
+		margin-bottom: 6px;
+		svg {
+			color: $muted;
+			font-size: 20px;
+		}
+		input {
+			flex: 1;
+			min-width: 0;
+			height: 44px;
+			border: none;
+			outline: none;
+			background: transparent;
+			font-family: $font;
+			font-size: 14px;
+		}
+		&:focus-within {
+			border-color: $clay;
+		}
+	}
+	.filter-block {
+		padding: 14px 0;
+		border-top: 1px solid $line;
+		h4 {
+			font-size: 13px;
+			font-weight: 800;
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: $ink-2;
+			margin-bottom: 12px;
+		}
+	}
+	.check-list {
+		display: flex;
+		flex-direction: column;
+		gap: 10px;
+		label {
+			display: flex;
+			align-items: center;
+			gap: 10px;
+			font-size: 14px;
+			font-weight: 500;
+			cursor: pointer;
+			input {
+				width: 17px;
+				height: 17px;
+				accent-color: $clay;
+				cursor: pointer;
+			}
+		}
+	}
+	.more {
+		margin-top: 10px;
+		background: none;
+		border: none;
+		color: $clay;
+		font-weight: 700;
+		font-size: 13px;
+		cursor: pointer;
+		padding: 0;
+	}
+	.pill-row {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+		.fx-chip {
+			height: 36px;
+			min-width: 44px;
+			justify-content: center;
+			padding: 0 12px;
+		}
+	}
+	.range-row {
+		display: flex;
+		align-items: center;
+		gap: 8px;
+		span {
+			color: $muted;
+		}
+		input,
+		select {
+			flex: 1;
+			min-width: 0;
+			height: 42px;
+			border: 1px solid $line;
+			border-radius: 10px;
+			padding: 0 10px;
+			font-family: $font;
+			font-size: 14px;
+			outline: none;
+			background: $surface;
+			&:focus {
+				border-color: $clay;
+			}
+		}
+	}
+}
+
+.filter-drawer {
+	width: min(92vw, 380px);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background: $bg;
+	font-family: $font;
+	.drawer-top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 14px 16px;
+		border-bottom: 1px solid $line;
+		strong {
+			font-family: $font-display;
+			font-size: 22px;
+		}
+	}
+	.shop-filter {
+		border: none;
+		border-radius: 0;
+		background: transparent;
+		flex: 1;
+		overflow-y: auto;
+		.filter-head strong {
+			display: none;
+		}
+	}
+	.drawer-bottom {
+		padding: 14px 16px;
+		border-top: 1px solid $line;
+		background: $surface;
+	}
+}
+
+/* =================== PRODUCT DETAIL =================== */
+.product-detail {
+	padding-top: calc(#{$header-h} + 28px);
+	@include sm {
+		padding-top: calc(64px + 16px);
+	}
+
+	.crumbs {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 8px;
+		font-size: 13px;
+		color: $muted;
+		margin-bottom: 18px;
+		a:hover {
+			color: $clay;
+		}
+	}
+
+	.detail-top {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: 40px;
+		align-items: start;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			gap: 24px;
+		}
+	}
+
+	.gallery {
+		display: flex;
+		flex-direction: column;
+		gap: 12px;
+		.main-image {
+			position: relative;
+			border-radius: $radius-lg;
+			overflow: hidden;
+			background: $sand;
+			aspect-ratio: 4 / 3;
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+			.badges {
+				position: absolute;
+				top: 16px;
+				left: 16px;
+				display: flex;
+				gap: 6px;
+			}
+		}
+		.thumbs {
+			display: flex;
+			gap: 10px;
+			overflow-x: auto;
+			scrollbar-width: none;
+			&::-webkit-scrollbar {
+				display: none;
+			}
+			button {
+				flex: 0 0 88px;
+				height: 70px;
+				border-radius: 12px;
+				overflow: hidden;
+				border: 2px solid transparent;
+				padding: 0;
+				cursor: pointer;
+				background: $sand;
+				opacity: 0.75;
+				transition: all 0.2s ease;
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+				&.active {
+					border-color: $clay;
+					opacity: 1;
+				}
+			}
+		}
+	}
+
+	.summary {
+		position: sticky;
+		top: calc(#{$header-h} + 20px);
+		display: flex;
+		flex-direction: column;
+		gap: 18px;
+		@include md {
+			position: static;
+		}
+		.type {
+			font-size: 12px;
+			font-weight: 800;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
+			color: $sage-dark;
+		}
+		h1 {
+			@include display(38px);
+			@include sm {
+				font-size: 30px;
+			}
+		}
+		.location {
+			display: flex;
+			align-items: center;
+			gap: 6px;
+			color: $muted;
+			font-size: 15px;
+			svg {
+				font-size: 18px;
+			}
+		}
+		.price-row {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 12px;
+			padding: 18px 0;
+			border-top: 1px solid $line;
+			border-bottom: 1px solid $line;
+			.price {
+				font-family: $font-display;
+				font-size: 36px;
+				font-weight: 600;
+			}
+			.actions {
+				display: flex;
+				gap: 8px;
+			}
+		}
+		.spec-grid {
+			display: grid;
+			grid-template-columns: repeat(3, 1fr);
+			gap: 10px;
+			.spec {
+				background: $surface;
+				border: 1px solid $line;
+				border-radius: 14px;
+				padding: 14px;
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+				svg {
+					color: $clay;
+				}
+				strong {
+					font-size: 18px;
+				}
+				span {
+					font-size: 12px;
+					color: $muted;
+				}
+			}
+		}
+		.seller-box {
+			display: flex;
+			align-items: center;
+			gap: 14px;
+			padding: 16px;
+			background: $surface;
+			border: 1px solid $line;
+			border-radius: $radius;
+			img {
+				width: 56px;
+				height: 56px;
+				border-radius: 50%;
+				object-fit: cover;
+			}
+			.info {
+				flex: 1;
+				min-width: 0;
+				strong {
+					display: block;
+					font-size: 16px;
+					cursor: pointer;
+					&:hover {
+						color: $clay;
+					}
+				}
+				span {
+					font-size: 13px;
+					color: $muted;
+				}
+			}
+		}
+		.cta-row {
+			display: flex;
+			gap: 10px;
+			.fx-btn {
+				flex: 1;
+			}
+			@include sm {
+				flex-direction: column;
+				.fx-btn {
+					flex: none;
+					width: 100%;
+				}
+			}
+		}
+		.report-link {
+			align-self: flex-start;
+			display: inline-flex;
+			align-items: center;
+			gap: 6px;
+			background: none;
+			border: none;
+			color: $muted;
+			font-size: 13px;
+			font-weight: 600;
+			cursor: pointer;
+			padding: 0;
+			&:hover {
+				color: $danger;
+			}
+			svg {
+				font-size: 18px;
+			}
+		}
+	}
+
+	.detail-body {
+		display: grid;
+		grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+		gap: 40px;
+		margin-top: 56px;
+		@include md {
+			grid-template-columns: minmax(0, 1fr);
+			margin-top: 36px;
+			gap: 24px;
+		}
+		h2 {
+			@include display(26px);
+			margin-bottom: 14px;
+		}
+		.desc {
+			font-size: 16px;
+			line-height: 1.8;
+			color: $ink-2;
+			white-space: pre-line;
+		}
+		.details-list {
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			gap: 0 24px;
+			margin-top: 20px;
+			@include sm {
+				grid-template-columns: 1fr;
+			}
+			div {
+				display: flex;
+				justify-content: space-between;
+				gap: 10px;
+				padding: 12px 0;
+				border-bottom: 1px solid $line;
+				font-size: 14px;
+				span {
+					color: $muted;
+				}
+				strong {
+					text-align: right;
+				}
+			}
+		}
+	}
+
+	.reviews {
+		.review-form {
+			display: flex;
+			flex-direction: column;
+			gap: 10px;
+			margin-bottom: 22px;
+			textarea {
+				width: 100%;
+				min-height: 100px;
+				border: 1px solid $line;
+				border-radius: 14px;
+				padding: 14px;
+				font-family: $font;
+				font-size: 15px;
+				resize: vertical;
+				outline: none;
+				&:focus {
+					border-color: $clay;
+				}
+			}
+			.fx-btn {
+				align-self: flex-end;
+			}
+		}
+		.review {
+			display: flex;
+			gap: 12px;
+			padding: 16px 0;
+			border-bottom: 1px solid $line;
+			img {
+				width: 42px;
+				height: 42px;
+				border-radius: 50%;
+				object-fit: cover;
+				flex-shrink: 0;
+			}
+			strong {
+				font-size: 15px;
+			}
+			small {
+				color: $muted;
+				font-size: 12px;
+				margin-left: 8px;
+			}
+			p {
+				margin-top: 4px;
+				font-size: 14px;
+				color: $ink-2;
+				white-space: pre-line;
+			}
+		}
+	}
+
+	.similar {
+		margin-top: 64px;
+		@include sm {
+			margin-top: 44px;
+		}
+	}
+}

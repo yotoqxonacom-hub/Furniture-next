@@ -1,0 +1,69 @@
+/** FURNITURE DESIGN TOKENS **/
+
+
+$font: 'Manrope', 'Segoe UI', sans-serif;
+$font-display: 'Fraunces', Georgia, serif;
+
+$ink: #2b2420;
+$ink-2: #4a413a;
+$muted: #6f675e;
+$line: #e7dfd3;
+$bg: #faf7f2;
+$surface: #ffffff;
+$sand: #efe7dc;
+$sand-2: #e2d4bf;
+$clay: #b8653e;
+$clay-dark: #97502f;
+$clay-soft: #f4e2d6;
+$sage: #7d8c6c;
+$sage-dark: #5f6e51;
+$sage-soft: #e6eadf;
+$mustard: #d4a445;
+$danger: #c0392b;
+
+$radius-sm: 10px;
+$radius: 16px;
+$radius-lg: 24px;
+$shadow-sm: 0 1px 2px rgba(43, 36, 32, 0.06), 0 2px 8px rgba(43, 36, 32, 0.04);
+$shadow: 0 10px 30px -12px rgba(43, 36, 32, 0.18);
+$shadow-lg: 0 24px 60px -20px rgba(43, 36, 32, 0.28);
+
+$header-h: 76px;
+$container: 1240px;
+
+/* breakpoints */
+$lg: 1100px;
+$md: 900px;
+$sm: 600px;
+
+@mixin lg {
+	@media (max-width: $lg) {
+		@content;
+	}
+}
+@mixin md {
+	@media (max-width: $md) {
+		@content;
+	}
+}
+@mixin sm {
+	@media (max-width: $sm) {
+		@content;
+	}
+}
+
+@mixin display($size: 40px) {
+	font-family: $font-display;
+	font-weight: 600;
+	font-size: $size;
+	line-height: 1.12;
+	letter-spacing: -0.01em;
+	color: $ink;
+}
+
+@mixin clamp-lines($n) {
+	display: -webkit-box;
+	-webkit-line-clamp: $n;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}

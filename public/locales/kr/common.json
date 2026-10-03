@@ -575,5 +575,8 @@
 	"In this room": "이 방에 있는 가구",
 	"Shop corner sofas": "코너 소파 보기",
 	"See all {{count}} corner sofas": "코너 소파 {{count}}개 모두 보기",
-	"Read": "읽음"
+	"Read": "읽음",
+	"This username is already taken": "이미 사용 중인 아이디입니다",
+	"This phone number is already registered": "이미 등록된 전화번호입니다",
+	"Something went wrong!": "문제가 발생했습니다!"
 }

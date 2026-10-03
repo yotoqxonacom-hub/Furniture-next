@@ -3,6 +3,7 @@ import Swal from 'sweetalert2';
 import 'animate.css';
 import { Messages } from './config';
 import { translate } from './i18n';
+import { errorMessageOf } from './errorMessage';
 
 /**
  * Timer alerts are shown and the function returns right away (fire-and-forget),
@@ -10,8 +11,9 @@ import { translate } from './i18n';
  * Swal shows one popup at a time, so the newest message always wins and is never stuck behind an old one.
  * Confirm dialogs (sweetConfirmAlert, sweetLoginConfirmAlert) still wait for the user's answer.
  */
+/** string / array / { message } object -> plain text (never "[object Object]") */
 const clean = (msg: any): string => {
-	const text = Array.isArray(msg) ? msg.join(', ') : String(msg ?? '');
+	const text = errorMessageOf(msg) || (msg == null ? '' : typeof msg === 'object' ? Messages.error1 : String(msg));
 	return text.replace('Definer: ', '');
 };
 

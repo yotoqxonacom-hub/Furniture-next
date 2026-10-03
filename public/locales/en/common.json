@@ -575,5 +575,8 @@
 	"In this room": "In this room",
 	"Shop corner sofas": "Shop corner sofas",
 	"See all {{count}} corner sofas": "See all {{count}} corner sofas",
-	"Read": "Read"
+	"Read": "Read",
+	"This username is already taken": "This username is already taken",
+	"This phone number is already registered": "This phone number is already registered",
+	"Something went wrong!": "Something went wrong!"
 }

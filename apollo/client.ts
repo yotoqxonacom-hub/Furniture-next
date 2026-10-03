@@ -1,3 +1,4 @@
+import { errorMessageOf } from '../libs/errorMessage';
 import { GRAPHQL_URL } from '../libs/env';
 import { useMemo } from 'react';
 import { ApolloClient, ApolloLink, InMemoryCache, from, NormalizedCacheObject } from '@apollo/client';
@@ -58,8 +59,7 @@ function createIsomorphicLink() {
 				graphQLErrors.forEach(({ message, path }) => {
 					console.log(`[GraphQL error]: ${operation.operationName}:`, message, path);
 				});
-				const message: any = graphQLErrors[0]?.message;
-				const text = Array.isArray(message) ? message.join(', ') : String(message ?? '');
+				const text = errorMessageOf(graphQLErrors[0]?.message);
 				if (!isMutation && !silent && text && !text.includes('input')) sweetErrorAlert(text);
 			}
 			if (networkError) console.log(`[Network error]: ${operation.operationName}:`, networkError);

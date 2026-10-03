@@ -575,5 +575,8 @@
 	"In this room": "В этой комнате",
 	"Shop corner sofas": "Смотреть угловые диваны",
 	"See all {{count}} corner sofas": "Все угловые диваны ({{count}})",
-	"Read": "Прочитано"
+	"Read": "Прочитано",
+	"This username is already taken": "Это имя пользователя уже занято",
+	"This phone number is already registered": "Этот номер телефона уже зарегистрирован",
+	"Something went wrong!": "Что-то пошло не так!"
 }

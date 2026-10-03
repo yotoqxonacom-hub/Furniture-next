@@ -4,6 +4,9 @@ import { userVar } from '../../apollo/store';
 import { CustomJwtPayload } from '../types/customJwtPayload';
 import { LOGIN, SIGN_UP } from '../../apollo/user/mutation';
 import { translate } from '../i18n';
+import { errorMessageOf } from '../errorMessage';
+
+export { errorMessageOf };
 
 /**
  * Same flow as Nestar-next (logIn / signUp -> request token -> updateStorage -> updateUserInfo),
@@ -29,15 +32,27 @@ const authErrorText: Record<string, string> = {
 	'Wrong password, try again!': 'Wrong password, please try again',
 	'You have been blocked!': 'Your account has been blocked. Please contact support',
 	'Already used member nick or phone!': 'This username or phone number is already taken',
+	'This nickname is already taken!': 'This username is already taken',
+	'This phone number is already registered!': 'This phone number is already registered',
+};
+
+/** class-validator texts ("memberNick must be longer than…") -> the same hints the form shows */
+const validationText = (message: string): string | null => {
+	if (/memberNick/.test(message)) return 'Username must be 3–12 characters';
+	if (/memberPassword/.test(message)) return 'Password must be 5–12 characters';
+	if (/memberPhone/.test(message)) return 'Please enter a valid phone number';
+	return null;
 };
 
 export const readableAuthError = (err: any): string => {
 	const status = err?.networkError?.statusCode;
 	if (status === 404) return translate('API address is wrong (404). Check REACT_APP_API_GRAPHQL_URL in .env.local');
-	if (err?.networkError) return translate('Server is not reachable. Is the backend running?');
-	const raw = err?.graphQLErrors?.[0]?.message ?? err?.message ?? 'Something went wrong!';
-	const message = Array.isArray(raw) ? raw.join(', ') : String(raw);
-	return translate(authErrorText[message] ?? message);
+	// a network error with GraphQL errors in its body still carries the real message
+	const bodyErrors = err?.networkError?.result?.errors;
+	const message = errorMessageOf(err?.graphQLErrors?.length ? err : bodyErrors?.length ? bodyErrors[0] : null);
+	if (!message && err?.networkError) return translate('Server is not reachable. Is the backend running?');
+	const text = message || errorMessageOf(err) || 'Something went wrong!';
+	return translate(authErrorText[text] ?? validationText(text) ?? text);
 };
 
 export const logIn = async (nick: string, password: string): Promise<void> => {

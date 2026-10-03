@@ -575,5 +575,8 @@
 	"In this room": "Bu xonada",
 	"Shop corner sofas": "Burchak divanlarni ko'rish",
 	"See all {{count}} corner sofas": "Barcha {{count}} ta burchak divanni ko'rish",
-	"Read": "O'qildi"
+	"Read": "O'qildi",
+	"This username is already taken": "Bu foydalanuvchi nomi band",
+	"This phone number is already registered": "Bu telefon raqami allaqachon ro'yxatdan o'tgan",
+	"Something went wrong!": "Nimadir xato ketdi!"
 }

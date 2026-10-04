@@ -3,12 +3,22 @@ import Link from 'next/link';
 import { useQuery } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import EastRoundedIcon from '@mui/icons-material/EastRounded';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay } from 'swiper';
+import 'swiper/css';
 import { GET_AGENTS } from '../../../apollo/user/query';
 import { Member } from '../../types/member/member';
 import AgentCard from '../common/AgentCard';
 import useLikeMember from '../../hooks/useLikeMember';
 
-const input = { page: 1, limit: 4, sort: 'memberRank', direction: 'DESC', search: {} };
+// karusel aylanib yurishi uchun ekranda ko'rinadiganidan ko'proq agent olamiz
+const input = { page: 1, limit: 10, sort: 'memberRank', direction: 'DESC', search: {} };
+
+const autoplayConfig = {
+	delay: 0, // slaydlar orasida to'xtamaydi — o'ngdan chapga uzluksiz suriladi
+	disableOnInteraction: false, // foydalanuvchi tekkandan keyin ham davom etadi
+	pauseOnMouseEnter: true, // sichqoncha ustida bo'lsa to'xtaydi
+};
 
 const TopAgents = () => {
 	const { t } = useTranslation('common');
@@ -41,11 +51,26 @@ const TopAgents = () => {
 						</Link>
 					</div>
 				</div>
-				<div className={'fx-product-grid cols-4 fx-rail'}>
+				<Swiper
+					className={'fx-agent-swiper'}
+					modules={[Autoplay]}
+					slidesPerView={1.2}
+					spaceBetween={14}
+					loop={topAgents.length > 4}
+					speed={5000}
+					autoplay={autoplayConfig}
+					breakpoints={{
+						600: { slidesPerView: 2, spaceBetween: 16 },
+						900: { slidesPerView: 3, spaceBetween: 22 },
+						1100: { slidesPerView: 4, spaceBetween: 22 },
+					}}
+				>
 					{topAgents.map((agent) => (
-						<AgentCard key={agent._id} agent={agent} likeMemberHandler={likeMemberHandler} />
+						<SwiperSlide key={agent._id}>
+							<AgentCard agent={agent} likeMemberHandler={likeMemberHandler} />
+						</SwiperSlide>
 					))}
-				</div>
+				</Swiper>
 			</div>
 		</section>
 	);

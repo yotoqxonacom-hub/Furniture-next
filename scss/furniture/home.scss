@@ -856,3 +856,18 @@
 		}
 	}
 }
+
+/* homepage top sellers: autoplay carousel (right → left) */
+.home-agents .fx-agent-swiper {
+	padding: 4px 2px 10px;
+	.swiper-wrapper {
+		transition-timing-function: linear !important; // tekis tezlik
+	}
+	.swiper-slide {
+		height: auto;
+		display: flex;
+	}
+	.fx-agent-card {
+		width: 100%;
+	}
+}

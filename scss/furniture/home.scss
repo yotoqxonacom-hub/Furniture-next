@@ -136,6 +136,53 @@
 				background: $clay-soft;
 			}
 		}
+		/* Category / City: HeroPicker button styled like the other fields */
+		.field.picker {
+			position: relative;
+			min-width: 132px;
+			padding-right: 38px;
+			border-top: none;
+			border-bottom: none;
+			border-left: none;
+			background: transparent;
+			font-family: $font;
+			text-align: left;
+			transition: background 0.2s ease;
+			strong {
+				font-size: 15px;
+				font-weight: 700;
+				color: $ink;
+				white-space: nowrap;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			.chevron {
+				position: absolute;
+				right: 12px;
+				top: 50%;
+				margin-top: -10px;
+				font-size: 20px;
+				color: $muted;
+				transition: transform 0.25s ease, color 0.2s ease;
+			}
+			&:hover {
+				background: $bg;
+				.chevron {
+					color: $ink;
+				}
+			}
+			&:focus-visible {
+				outline: none;
+				background: $clay-soft;
+			}
+			&.open {
+				background: $clay-soft;
+				.chevron {
+					color: $clay;
+					transform: rotate(180deg);
+				}
+			}
+		}
 		.search-btn {
 			display: inline-flex;
 			align-items: center;
@@ -380,6 +427,10 @@
 				border-bottom: 1px solid $line;
 				padding: 12px 14px;
 			}
+			.field.picker {
+				padding-right: 40px;
+				border-bottom: 1px solid $line;
+			}
 			.search-btn {
 				justify-content: center;
 				min-height: 52px;
@@ -396,6 +447,123 @@
 			width: 18px;
 			height: 18px;
 			margin: -9px 0 0 -9px;
+		}
+	}
+}
+
+/* Option panel of HeroPicker (rendered by MUI Popover in a portal, so it lives outside .home-hero) */
+.hero-picker-panel {
+	padding: 8px;
+	max-height: 380px;
+	background: $surface;
+	border: 1px solid $line;
+	box-shadow: $shadow-lg !important;
+	font-family: $font;
+	.panel-head {
+		padding: 8px 10px 10px;
+		font-size: 11px;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: $muted;
+	}
+	.panel-list {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		gap: 2px;
+	}
+	&.cols-1 {
+		width: 270px;
+	}
+	&.cols-2 {
+		width: 340px;
+		.panel-list {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+		.option.all {
+			grid-column: 1 / -1;
+		}
+	}
+	.option {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		min-height: 44px;
+		width: 100%;
+		padding: 6px 10px;
+		border: none;
+		border-radius: $radius-sm;
+		background: transparent;
+		font-family: $font;
+		font-size: 14px;
+		font-weight: 600;
+		color: $ink-2;
+		text-align: left;
+		cursor: pointer;
+		transition: background 0.15s ease, color 0.15s ease;
+		.option-icon {
+			width: 32px;
+			height: 32px;
+			flex-shrink: 0;
+			border-radius: 50%;
+			background: $sand;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			color: $muted;
+			transition: background 0.15s ease, color 0.15s ease;
+			img {
+				width: 20px;
+				height: 20px;
+			}
+			svg {
+				font-size: 18px;
+			}
+		}
+		.option-label {
+			flex: 1;
+			min-width: 0;
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+		.option-check {
+			font-size: 18px;
+			color: $clay;
+			flex-shrink: 0;
+		}
+		&:hover {
+			background: $bg;
+			color: $ink;
+			.option-icon {
+				background: $sand-2;
+				color: $ink;
+			}
+		}
+		&:focus-visible {
+			outline: none;
+			box-shadow: 0 0 0 2px $clay;
+		}
+		&.active {
+			background: $clay-soft;
+			color: $clay-dark;
+			.option-icon {
+				background: $surface;
+				color: $clay;
+			}
+		}
+	}
+	@include sm {
+		&.cols-1,
+		&.cols-2 {
+			width: calc(100vw - 32px);
+			max-width: 420px;
+		}
+		&.cols-2 .panel-list {
+			grid-template-columns: minmax(0, 1fr);
+		}
+		.option {
+			min-height: 48px;
 		}
 	}
 }

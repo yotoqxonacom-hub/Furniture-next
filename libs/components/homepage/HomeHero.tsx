@@ -4,15 +4,19 @@ import { useRouter } from 'next/router';
 import { useQuery, useReactiveVar } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
+import CategoryOutlinedIcon from '@mui/icons-material/CategoryOutlined';
+import PublicOutlinedIcon from '@mui/icons-material/PublicOutlined';
+import PlaceOutlinedIcon from '@mui/icons-material/PlaceOutlined';
 import { GET_PRODUCTS } from '../../../apollo/user/query';
 import { userVar } from '../../../apollo/store';
-import { ProductLocation, ProductType, productTypeLabel } from '../../enums/product.enum';
+import { ProductLocation, ProductType, productTypeIcon, productTypeLabel } from '../../enums/product.enum';
 import { Product } from '../../types/product/product';
 import { ProductsInquiry } from '../../types/product/product.input';
 import { capitalize, formatPrice, imageUrl, productSearchLink } from '../../utils';
 import { PAGE_IMAGES } from '../../pageImages';
 import { canSeeAddProduct } from '../../member';
 import AddProductButton from '../common/AddProductButton';
+import HeroPicker, { HeroPickerOption } from './HeroPicker';
 
 /**
  * Home hero drawn like a furniture spec sheet: a drafting grid behind the copy and,
@@ -55,6 +59,23 @@ const HomeHero = () => {
 	const cornerSofaCount: number = data?.getProducts?.metaCounter?.[0]?.total ?? 0;
 	const categoryHref = productSearchLink({ typeList: [ProductType.CORNER_SOFA] });
 
+	const categoryOptions: HeroPickerOption[] = [
+		{ value: '', label: t('All furniture'), icon: <CategoryOutlinedIcon /> },
+		...Object.values(ProductType).map((value) => ({
+			value,
+			label: t(productTypeLabel[value]),
+			icon: <img src={productTypeIcon[value]} alt="" />,
+		})),
+	];
+	const cityOptions: HeroPickerOption[] = [
+		{ value: '', label: t('Anywhere'), icon: <PublicOutlinedIcon /> },
+		...Object.values(ProductLocation).map((value) => ({
+			value,
+			label: t(capitalize(value)),
+			icon: <PlaceOutlinedIcon />,
+		})),
+	];
+
 	/** HANDLERS **/
 	const searchHandler = async (e: React.FormEvent) => {
 		e.preventDefault();
@@ -77,28 +98,8 @@ const HomeHero = () => {
 					</p>
 
 					<form className={'hero-search'} onSubmit={searchHandler}>
-						<label className={'field'}>
-							<span>{t('Category')}</span>
-							<select value={type} onChange={(e) => setType(e.target.value)}>
-								<option value="">{t('All furniture')}</option>
-								{Object.values(ProductType).map((value) => (
-									<option key={value} value={value}>
-										{t(productTypeLabel[value])}
-									</option>
-								))}
-							</select>
-						</label>
-						<label className={'field'}>
-							<span>{t('City')}</span>
-							<select value={location} onChange={(e) => setLocation(e.target.value)}>
-								<option value="">{t('Anywhere')}</option>
-								{Object.values(ProductLocation).map((value) => (
-									<option key={value} value={value}>
-										{t(capitalize(value))}
-									</option>
-								))}
-							</select>
-						</label>
+						<HeroPicker label={t('Category')} value={type} onChange={setType} options={categoryOptions} />
+						<HeroPicker label={t('City')} value={location} onChange={setLocation} options={cityOptions} columns={2} />
 						<label className={'field grow'}>
 							<span>{t('Keyword')}</span>
 							<input value={text} onChange={(e) => setText(e.target.value)} placeholder={t('Velvet sofa, oak bed…')} />

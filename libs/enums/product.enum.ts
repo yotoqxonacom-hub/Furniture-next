@@ -18,6 +18,17 @@ export const productTypeLabel: Record<string, string> = {
 	KIDS: 'Kids',
 };
 
+/** category illustration (home "Shop by category" tiles, hero search picker) */
+export const productTypeIcon: Record<string, string> = {
+	SOFA: '/img/furniture/cat-sofa.svg',
+	CORNER_SOFA: '/img/furniture/cat-corner-sofa.svg',
+	ARMCHAIR: '/img/furniture/cat-armchair.svg',
+	BED: '/img/furniture/cat-bed.svg',
+	POUF: '/img/furniture/cat-pouf.svg',
+	MATTRESS: '/img/furniture/cat-mattress.svg',
+	KIDS: '/img/furniture/cat-kids.svg',
+};
+
 export enum ProductStatus {
 	ACTIVE = 'ACTIVE',
 	SOLD = 'SOLD',

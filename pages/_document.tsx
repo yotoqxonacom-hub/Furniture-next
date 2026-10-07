@@ -22,7 +22,7 @@ export default function Document(props: DocumentProps) {
 				<meta
 					name={'description'}
 					content={
-						'Furniture — buy and sell sofas, beds, armchairs and more across South Korea. ' +
+						'CozyLife — buy and sell sofas, beds, armchairs and more across South Korea. ' +
 						'Покупайте и продавайте мебель по всей Южной Корее. ' +
 						'대한민국 어디서나 소파, 침대, 안락의자를 사고팔 수 있는 가구 마켓.'
 					}

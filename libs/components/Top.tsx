@@ -29,6 +29,7 @@ import { Notification } from '../types/notification/notification';
 import { NotificationStatus } from '../enums/notification.enum';
 import { memberImageUrl, timeAgo } from '../utils';
 import { T } from '../types/common';
+import Logo, { BRAND_NAME } from './common/Logo';
 
 const navLinks = [
 	{ href: '/', label: 'Home', icon: <HomeOutlinedIcon /> },
@@ -174,8 +175,8 @@ const Top = () => {
 		<>
 			<header className={`fx-header ${scrolled ? 'scrolled' : ''}`}>
 				<div className={'fx-container'}>
-					<Link href={'/'} className={'logo'} aria-label={'Furniture home'}>
-						<img src="/img/furniture/logo.svg" alt="Furniture" />
+					<Link href={'/'} className={'logo'} aria-label={`${BRAND_NAME} home`}>
+						<Logo />
 					</Link>
 
 					<nav className={'nav'}>
@@ -355,7 +356,7 @@ const Top = () => {
 			<Drawer anchor={'right'} open={drawerOpen} onClose={() => setDrawerOpen(false)}>
 				<div className={'fx-drawer'}>
 					<div className={'drawer-head'}>
-						<img src="/img/furniture/logo.svg" alt="Furniture" />
+						<Logo />
 						<button className={'fx-icon-btn'} onClick={() => setDrawerOpen(false)} aria-label={'Close menu'}>
 							<CloseRoundedIcon />
 						</button>

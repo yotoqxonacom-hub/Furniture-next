@@ -22,7 +22,7 @@ const Shell = ({ children, title, offsetTop = false }: ShellProps) => {
 		connectSocket(); // no-op if this tab is already connected
 	}, []);
 
-	const pageTitle = title ? `${title} · Furniture` : 'Furniture — modern furniture marketplace';
+	const pageTitle = title ? `${title} · CozyLife` : 'CozyLife — modern furniture marketplace';
 
 	return (
 		<>

@@ -49,7 +49,7 @@ const About: NextPage = () => {
 					<h2>{t('We help people furnish homes they love living in.')}</h2>
 					<p>
 						{t(
-							'Furniture started as a small Seoul community of makers who were tired of disposable furniture. Today it is a marketplace where independent workshops and trusted stores meet people looking for the right sofa, bed or armchair — with clear prices, real reviews and delivery across Korea.',
+							'CozyLife started as a small Seoul community of makers who were tired of disposable furniture. Today it is a marketplace where independent workshops and trusted stores meet people looking for the right sofa, bed or armchair — with clear prices, real reviews and delivery across Korea.',
 						)}
 					</p>
 				</div>

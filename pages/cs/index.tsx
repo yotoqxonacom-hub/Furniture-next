@@ -78,7 +78,7 @@ const CS: NextPage = () => {
 							<h2>{t(tabs.find((item) => item.id === tab)?.label ?? 'Notices')}</h2>
 							{tab === 'faq' && <p>{t('Quick answers to the questions we hear most.')}</p>}
 							{tab === 'notice' && <p>{t('Service updates, events and announcements.')}</p>}
-							{tab === 'terms' && <p>{t('The rules that keep Furniture fair for buyers and sellers.')}</p>}
+							{tab === 'terms' && <p>{t('The rules that keep CozyLife fair for buyers and sellers.')}</p>}
 						</div>
 					</div>
 					{tab === 'notice' && <Notice category={NoticeCategory.NOTICE} />}

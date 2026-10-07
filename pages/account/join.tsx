@@ -223,7 +223,7 @@ const Join: NextPage = () => {
 					</button>
 
 					<p className={'switch-hint'}>
-						{loginView ? t('New to Furniture?') : t('Already have an account?')}{' '}
+						{loginView ? t('New to CozyLife?') : t('Already have an account?')}{' '}
 						<button type="button" onClick={() => switchView(!loginView)}>
 							{loginView ? t('Create an account') : t('Log in')}
 						</button>

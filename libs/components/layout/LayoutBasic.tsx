@@ -58,7 +58,7 @@ const banners: Record<string, BannerInfo> = {
 		image: PAGE_IMAGES.mypage,
 	},
 	'/about': {
-		title: 'About Furniture',
+		title: 'About CozyLife',
 		desc: 'Honest furniture for real homes, since 2024.',
 		image: PAGE_IMAGES.about,
 	},

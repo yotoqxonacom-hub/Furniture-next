@@ -1,6 +1,6 @@
-# Furniture — Next.js frontend
+# CozyLife — Next.js frontend
 
-Modern furniture marketplace frontend for the **Furniture** NestJS backend
+Modern furniture marketplace frontend (brand: **CozyLife**) for the **Furniture** NestJS backend
 (`yotoqxonacom-hub/Furniture`, branch `feature/notice-notification`).
 
 ## Run

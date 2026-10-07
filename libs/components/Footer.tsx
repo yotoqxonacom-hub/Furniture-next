@@ -9,6 +9,7 @@ import { ProductType, productTypeLabel } from '../enums/product.enum';
 import { sweetTopSmallSuccessAlert } from '../sweetAlert';
 import { productSearchLink } from '../utils';
 import { CONTACTS, telHref } from '../config';
+import Logo, { BRAND_NAME } from './common/Logo';
 
 const Footer = () => {
 	const { t } = useTranslation('common');
@@ -26,7 +27,9 @@ const Footer = () => {
 			<div className={'fx-container'}>
 				<div className={'top'}>
 					<div className={'brand'}>
-						<img src="/img/furniture/logoWhite.svg" alt="Furniture" />
+						<Link href={'/'} className={'logo'} aria-label={`${BRAND_NAME} home`}>
+							<Logo variant="light" />
+						</Link>
 						<p>
 							{t(
 								'A marketplace for honest, well-made furniture. Find the piece that makes your home feel like yours.',
@@ -111,7 +114,7 @@ const Footer = () => {
 				</div>
 
 				<div className={'bottom'}>
-					<span>© {new Date().getFullYear()} Furniture. {t('All rights reserved.')}</span>
+					<span>© {new Date().getFullYear()} {BRAND_NAME}. {t('All rights reserved.')}</span>
 					<span>{t('Seoul · Busan · Incheon · Daegu')}</span>
 				</div>
 			</div>

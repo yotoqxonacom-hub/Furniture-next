@@ -14,7 +14,7 @@ Next.js storefront and admin panel for the Furniture marketplace. Talks to the F
 | Stack | Next.js 14.2 (pages router), React 18.2, TypeScript, MUI 5 + Emotion, Apollo Client 3, SCSS, next-i18next, SweetAlert2, Swiper, Toast UI editor |
 | Languages | `en` (default, no prefix), `kr`, `uz`, `ru` |
 | Main branch | `develop` |
-| Backend env | `.env.local` from `.env.example` (API 3007, GraphQL `/graphql`, WS) |
+| Backend env | `.env.local` from `.env.example` (API 3007, GraphQL `/graphql`, WS); Docker uses `.env` |
 
 ## Commands
 
@@ -25,6 +25,7 @@ yarn dev               # http://localhost:3000
 yarn build
 npx tsc --noEmit
 yarn i18n:check        # fails if any locale misses a key
+docker compose up -d   # production: http://localhost:4000 (needs .env)
 ```
 
 ## Folder Map

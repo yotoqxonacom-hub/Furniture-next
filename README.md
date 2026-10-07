@@ -11,6 +11,19 @@ yarn install                 # or npm install
 yarn dev                     # http://localhost:3000
 ```
 
+## Docker (production)
+
+`docker-compose.yml` follows the backend setup (`node:20.10.0`, project folder as a volume, `.env`, `monorepo-network`):
+it runs `yarn install --frozen-lockfile && yarn build && yarn start` inside the container and serves the site on **port 4000** (container 3000).
+
+```bash
+cp .env.example .env          # set REACT_APP_* to the public backend address (backend compose: port 4001)
+docker compose up -d          # http://<server>:4000
+docker logs -f furniture-next # install → build → "Ready"
+```
+
+`REACT_APP_*` values are baked in at build time, so after editing `.env` run `docker compose up -d --force-recreate`.
+
 ## What's inside
 
 - **Responsive everywhere** (except the admin panel): one markup, CSS breakpoints at 1100 / 900 / 600px,

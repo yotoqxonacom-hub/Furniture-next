@@ -3,7 +3,6 @@ import { useRouter } from 'next/router';
 import { useMutation } from '@apollo/client';
 import { useTranslation } from 'next-i18next';
 import { Editor } from '@toast-ui/react-editor';
-// @ts-expect-error Toast UI Editor's CSS is handled by the application's bundler.
 import '@toast-ui/editor/dist/toastui-editor.css';
 import AddPhotoAlternateOutlinedIcon from '@mui/icons-material/AddPhotoAlternateOutlined';
 import { BoardArticleCategory } from '../../enums/board-article.enum';

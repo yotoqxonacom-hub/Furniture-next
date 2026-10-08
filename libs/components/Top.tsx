@@ -6,6 +6,7 @@ import { useMutation, useQuery, useReactiveVar } from '@apollo/client';
 import { Drawer, Menu, MenuItem, Popover, Divider } from '@mui/material';
 import MenuRoundedIcon from '@mui/icons-material/MenuRounded';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
+import SearchRoundedIcon from '@mui/icons-material/SearchRounded';
 import NotificationsNoneRoundedIcon from '@mui/icons-material/NotificationsNoneRounded';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import ChairOutlinedIcon from '@mui/icons-material/ChairOutlined';
@@ -77,6 +78,7 @@ const Top = () => {
 	const [lang, setLang] = useState<string>('en');
 	const [scrolled, setScrolled] = useState<boolean>(false);
 	const [drawerOpen, setDrawerOpen] = useState<boolean>(false);
+	const [searchOpen, setSearchOpen] = useState<boolean>(false);
 	const [langAnchor, setLangAnchor] = useState<null | HTMLElement>(null);
 	const [userAnchor, setUserAnchor] = useState<null | HTMLElement>(null);
 	const [notifAnchor, setNotifAnchor] = useState<null | HTMLElement>(null);
@@ -125,7 +127,26 @@ const Top = () => {
 
 	useEffect(() => {
 		setDrawerOpen(false);
+		setSearchOpen(false);
 	}, [router.asPath]);
+
+	// the navbar search is shown on every page except the home page
+	const showSearch = router.pathname !== '/';
+
+	useEffect(() => {
+		if (!showSearch) return;
+		// "/" or Ctrl/Cmd + K opens the navbar search
+		const onKey = (e: KeyboardEvent) => {
+			const el = e.target as HTMLElement | null;
+			const typing = !!el && (el.isContentEditable || ['INPUT', 'TEXTAREA', 'SELECT'].includes(el.tagName));
+			if (((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') || (e.key === '/' && !typing)) {
+				e.preventDefault();
+				setSearchOpen(true);
+			}
+		};
+		window.addEventListener('keydown', onKey);
+		return () => window.removeEventListener('keydown', onKey);
+	}, [showSearch]);
 
 	/** HANDLERS **/
 	const isActive = (href: string) => {
@@ -133,6 +154,8 @@ const Top = () => {
 		if (path === '/') return router.pathname === '/';
 		return router.pathname.startsWith(path);
 	};
+
+	const closeSearch = useCallback(() => setSearchOpen(false), []);
 
 	const langChoice = useCallback(
 		async (id: string) => {
@@ -174,27 +197,40 @@ const Top = () => {
 
 	return (
 		<>
-			<header className={`fx-header ${scrolled ? 'scrolled' : ''}`}>
+			<header className={`fx-header ${scrolled ? 'scrolled' : ''} ${searchOpen && showSearch ? 'searching' : ''}`}>
 				<div className={'fx-container'}>
 					<Link href={'/'} className={'logo'} aria-label={`${BRAND_NAME} home`}>
 						<Logo />
 					</Link>
 
-					<nav className={'nav'}>
-						{navLinks.map((link) => (
-							<Link key={link.href} href={link.href} className={isActive(link.href) ? 'active' : ''}>
-								{t(link.label)}
-							</Link>
-						))}
-						{user?._id && (
-							<Link href={'/mypage'} className={isActive('/mypage') ? 'active' : ''}>
-								{t('My Page')}
-							</Link>
-						)}
-					</nav>
+					{searchOpen && showSearch ? (
+						<HeaderSearch onClose={closeSearch} />
+					) : (
+						<nav className={'nav'}>
+							{navLinks.map((link) => (
+								<Link key={link.href} href={link.href} className={isActive(link.href) ? 'active' : ''}>
+									{t(link.label)}
+								</Link>
+							))}
+							{user?._id && (
+								<Link href={'/mypage'} className={isActive('/mypage') ? 'active' : ''}>
+									{t('My Page')}
+								</Link>
+							)}
+						</nav>
+					)}
 
 					<div className={'actions'}>
-						<HeaderSearch />
+						{showSearch && (
+							<button
+								className={`fx-icon-btn search-btn ${searchOpen ? 'active' : ''}`}
+								onClick={() => setSearchOpen((open) => !open)}
+								aria-label={t('Search')}
+								aria-expanded={searchOpen}
+							>
+								{searchOpen ? <CloseRoundedIcon /> : <SearchRoundedIcon />}
+							</button>
+						)}
 						<button className={'lang-btn'} onClick={(e) => setLangAnchor(e.currentTarget)} aria-label={'Language'}>
 							<img src={`/img/flag/lang${lang}.png`} alt={currentLang.label} />
 							{lang}

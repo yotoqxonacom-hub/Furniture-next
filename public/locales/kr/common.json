@@ -592,5 +592,10 @@
 	"Can I cancel an order?": "주문을 취소할 수 있나요?",
 	"Yes, while it is “Awaiting payment” or “Paid”. Open the order and tap “Cancel order”: the stock goes back to the seller and a paid order is refunded. Once the seller starts preparing it, ask the seller in the chat.": "네, “결제 대기” 또는 “결제 완료” 상태일 때 가능합니다. 주문을 열고 “주문 취소”를 누르면 재고는 판매자에게 돌아가고 결제된 주문은 환불됩니다. 판매자가 상품 준비를 시작한 뒤에는 채팅으로 판매자에게 문의하세요.",
 	"Where do sellers see and handle orders?": "판매자는 주문을 어디에서 확인하고 처리하나요?",
-	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "마이페이지 › 고객 주문에서 확인합니다. 결제된 주문을 “상품 준비 시작”, “발송 처리”, “배송 완료 처리” 순서로 진행하거나 취소할 수 있으며, 취소하면 구매자에게 환불됩니다."
+	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "마이페이지 › 고객 주문에서 확인합니다. 결제된 주문을 “상품 준비 시작”, “발송 처리”, “배송 완료 처리” 순서로 진행하거나 취소할 수 있으며, 취소하면 구매자에게 환불됩니다.",
+	"Search furniture...": "가구 검색...",
+	"See all results": "모든 결과 보기",
+	"No products found": "상품을 찾을 수 없습니다",
+	"Searching...": "검색 중...",
+	"Clear": "지우기"
 }

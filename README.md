@@ -32,6 +32,8 @@ docker logs -f furniture-next # install → build → "Ready"
   seats, pieces, price, size, barter), sorting, product detail with gallery, reviews and similar pieces.
 - **Reports**: logged-in members can report a product, a seller or an article (`createReport`).
   *My Page → My reports* shows every report with its status (in review / resolved / rejected).
+- **Search**: magnifier in the header on every page (or `/`, `Ctrl+K`): live product suggestions,
+  Enter opens the shop filtered by the text; a click anywhere outside the field closes it.
 - **Notifications**: bell in the header with unread counter, mark one / all as read.
 - **Help center**: notices, FAQ (searchable) and terms — all loaded from the backend notice module.
 - **Admin** (`/_admin`): users, products, community, **reports** (resolve → seller warning / reject),

@@ -592,5 +592,10 @@
 	"Can I cancel an order?": "Можно ли отменить заказ?",
 	"Yes, while it is “Awaiting payment” or “Paid”. Open the order and tap “Cancel order”: the stock goes back to the seller and a paid order is refunded. Once the seller starts preparing it, ask the seller in the chat.": "Да, пока он в статусе «Ожидает оплаты» или «Оплачен». Откройте заказ и нажмите «Отменить заказ»: товар вернётся на склад продавца, а деньги за оплаченный заказ будут возвращены. Если продавец уже начал подготовку, напишите ему в чат.",
 	"Where do sellers see and handle orders?": "Где продавцы видят и обрабатывают заказы?",
-	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "В разделе Мой кабинет › Заказы покупателей. Переводите оплаченный заказ дальше кнопками «Начать подготовку», «Отметить как отправленный» и «Отметить как доставленный» или отмените его — покупателю вернут деньги."
+	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "В разделе Мой кабинет › Заказы покупателей. Переводите оплаченный заказ дальше кнопками «Начать подготовку», «Отметить как отправленный» и «Отметить как доставленный» или отмените его — покупателю вернут деньги.",
+	"Search furniture...": "Поиск мебели...",
+	"See all results": "Показать все результаты",
+	"No products found": "Товары не найдены",
+	"Searching...": "Поиск...",
+	"Clear": "Очистить"
 }

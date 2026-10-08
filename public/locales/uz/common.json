@@ -592,5 +592,10 @@
 	"Can I cancel an order?": "Buyurtmani bekor qilsam bo'ladimi?",
 	"Yes, while it is “Awaiting payment” or “Paid”. Open the order and tap “Cancel order”: the stock goes back to the seller and a paid order is refunded. Once the seller starts preparing it, ask the seller in the chat.": "Ha, “To'lov kutilmoqda” yoki “To'langan” holatida. Buyurtmani oching va “Buyurtmani bekor qilish” tugmasini bosing: mahsulot sotuvchining omboriga qaytadi, to'langan buyurtma uchun pul qaytariladi. Sotuvchi tayyorlashni boshlagach, chatda sotuvchiga yozing.",
 	"Where do sellers see and handle orders?": "Sotuvchilar buyurtmalarni qayerda ko'radi va boshqaradi?",
-	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "Mening sahifam › Mijozlar buyurtmalari bo'limida. To'langan buyurtmani “Tayyorlashni boshlash”, “Jo'natildi deb belgilash” va “Yetkazildi deb belgilash” orqali oldinga suring yoki bekor qiling — xaridorga pul qaytariladi."
+	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "Mening sahifam › Mijozlar buyurtmalari bo'limida. To'langan buyurtmani “Tayyorlashni boshlash”, “Jo'natildi deb belgilash” va “Yetkazildi deb belgilash” orqali oldinga suring yoki bekor qiling — xaridorga pul qaytariladi.",
+	"Search furniture...": "Mebel qidirish...",
+	"See all results": "Barcha natijalarni ko'rish",
+	"No products found": "Mahsulot topilmadi",
+	"Searching...": "Qidirilmoqda...",
+	"Clear": "Tozalash"
 }

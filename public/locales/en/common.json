@@ -592,5 +592,10 @@
 	"Can I cancel an order?": "Can I cancel an order?",
 	"Yes, while it is “Awaiting payment” or “Paid”. Open the order and tap “Cancel order”: the stock goes back to the seller and a paid order is refunded. Once the seller starts preparing it, ask the seller in the chat.": "Yes, while it is “Awaiting payment” or “Paid”. Open the order and tap “Cancel order”: the stock goes back to the seller and a paid order is refunded. Once the seller starts preparing it, ask the seller in the chat.",
 	"Where do sellers see and handle orders?": "Where do sellers see and handle orders?",
-	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded."
+	"In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.": "In My Page › Customer orders. Move each paid order forward with “Start preparing”, “Mark as shipped” and “Mark as delivered”, or cancel it — the buyer is refunded.",
+	"Search furniture...": "Search furniture...",
+	"See all results": "See all results",
+	"No products found": "No products found",
+	"Searching...": "Searching...",
+	"Clear": "Clear"
 }

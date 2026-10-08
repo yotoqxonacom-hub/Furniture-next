@@ -19,6 +19,7 @@ import AddCircleOutlineRoundedIcon from '@mui/icons-material/AddCircleOutlineRou
 import ReceiptLongOutlinedIcon from '@mui/icons-material/ReceiptLongOutlined';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import CartButton from './common/CartButton';
+import HeaderSearch from './common/HeaderSearch';
 import { ADD_PRODUCT_HREF, isAdmin, isAgent, MY_ORDERS_HREF } from '../member';
 import { OrderStatus } from '../enums/order.enum';
 import { userVar } from '../../apollo/store';
@@ -193,6 +194,7 @@ const Top = () => {
 					</nav>
 
 					<div className={'actions'}>
+						<HeaderSearch />
 						<button className={'lang-btn'} onClick={(e) => setLangAnchor(e.currentTarget)} aria-label={'Language'}>
 							<img src={`/img/flag/lang${lang}.png`} alt={currentLang.label} />
 							{lang}

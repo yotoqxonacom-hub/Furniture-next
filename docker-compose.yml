@@ -5,16 +5,18 @@ services:
     image: node:20.10.0
     ports:
       - 4000:3000
+      environment:
+        - PORT=3000
     volumes:
       - ./:/usr/src/furniture-next
     working_dir: /usr/src/furniture-next
     env_file: .env
     networks:
-      - monorepo-network
+      - client-network
 
     # FOR PRODUCTION (REACT_APP_* from .env are baked in at build time: recreate the container after changing .env)
     command: bash -c "yarn install --frozen-lockfile && yarn build && yarn start"
 
 networks:
-  monorepo-network:
+  client-network:
     driver: bridge

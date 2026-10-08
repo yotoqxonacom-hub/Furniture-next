@@ -5,8 +5,8 @@ services:
     image: node:20.10.0
     ports:
       - 4000:3000
-      environment:
-        - PORT=3000
+    environment:
+      - PORT=3000
     volumes:
       - ./:/usr/src/furniture-next
     working_dir: /usr/src/furniture-next
